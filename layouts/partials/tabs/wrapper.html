@@ -1,9 +1,7 @@
 {{ $id := (or (.id) (substr (.Inner | md5) 0 4)) }} {{ $tabs := (or (.tabs) (slice (dict "title" "error" "content" "Example not found"))) }} {{
 $cliName := ">_ Pharmavillage CLI" }} {{ $btnQuickStartText := "Quick-Start" }} {{ $btnRIText := "Get Pharmavillage Insight" }} {{ $btnRIUrl :=
-"https://redis.com/redis-enterprise/redis-insight/" }} {{ $footerText := "Are you tired of using redis-cli? Try Pharmavillage Insight - the developer
-GUI for Pharmavillage." }} {{ $showFooter := (.showFooter) }}
+"https://redis.com/redis-enterprise/redis-insight/" }} {{ $footerText := "Are you tired of using redis-cli? Try Pharmavillage Insight - the developerGUI for Pharmavillage." }} {{ $showFooter := (.showFooter) }}
 
-<!-- spellchecker-disable -->
 <div class="codetabs cli group flex justify-start items-center flex-wrap box-border rounded-lg mt-0 mb-0 mx-auto bg-slate-900" id="{{ $id }}">
   {{ range $i, $tab := $tabs }} {{ $tid := printf "%s_%s" (replace (replace (index $tab "title") "#" "sharp") "." "") $id }} {{ $pid := printf
   "panel_%s" $tid }} {{ $quickStartSlug := (replace (replace (index $tab "title") "." "") "C#" "dotnet" | lower) }}

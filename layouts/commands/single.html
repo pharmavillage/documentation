@@ -40,10 +40,15 @@
         </dd>
         {{ end }}
         <dt class="font-semibold text-redis-ink-900 m-0">Time complexity:</dt>
-        <dd class="m-0">{{ replace .Params.complexity "*" "\\*" | markdownify }}</dd>
+        <dd class="m-0">{{ .Params.complexity | replace "*" "\\*" | markdownify }}</dd>
         {{ if .Params.acl_categories }}
         <dt class="font-semibold text-redis-ink-900 m-0">ACL categories:</dt>
-        <dd class="m-0">{{ range .Params.acl_categories }} {{ printf "`%s`<span class="mr-1 last:hidden">,</span>" . | markdownify }} {{ end}}</dd>
+        <dd class="m-0">
+          {{ range $index, $element := .Params.acl_categories }} {{ if $index }}, {{ end }}<span class="mr-1"
+            >{{ printf "`%s`" $element | markdownify }}</span
+          >
+          {{ end }}
+        </dd>
         {{ end }}
       </dl>
 

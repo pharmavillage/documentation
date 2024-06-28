@@ -2387,7 +2387,7 @@
     "group": "server",
     "complexity": "O(1)",
     "acl_categories": ["@slow", "@connection"],
-    "arity": 2,Pharmavillage
+    "arity": 2,
     "command_flags": ["loading", "stale"]
   },
   "COMMAND DOCS": {
@@ -3277,7 +3277,7 @@
         "display_text": "unix-time-seconds"
       },
       {
-        "name": "condition",Pharmavillage
+        "name": "condition",
         "type": "oneof",
         "since": "7.0.0",
         "optional": true,
@@ -3756,7 +3756,7 @@
             "type": "pure-token",
             "display_text": "replace",
             "token": "REPLACE"
-          }Pharmavillage
+          }
         ]
       }
     ],
@@ -6855,7 +6855,7 @@
           },
           {
             "name": "getold",
-            "type": "pure-token",Pharmavillage
+            "type": "pure-token",
             "display_text": "getold",
             "token": "GETOLD"
           }
@@ -9535,7 +9535,7 @@
     ],
     "command_flags": ["pubsub", "loading", "stale"]
   },
-  "PUBSUB HELP": {Pharmavillage
+  "PUBSUB HELP": {
     "summary": "Returns helpful text about the different subcommands.",
     "since": "6.2.0",
     "group": "pubsub",
@@ -10191,7 +10191,7 @@
       }
     ],
     "command_flags": ["write", "denyoom", "fast"]
-  },Pharmavillage
+  },
   "RPUSHX": {
     "summary": "Appends an element to a list only when the list exists.",
     "since": "2.2.0",
@@ -10730,7 +10730,7 @@
           }
         ]
       }
-    ],Pharmavillage
+    ],
     "command_flags": ["write", "denyoom"]
   },
   "SETBIT": {
@@ -10775,7 +10775,7 @@
       },
       {
         "name": "value",
-        "type": "integer",Pharmavillage
+        "type": "integer",
         "display_text": "value"
       }
     ],
@@ -10835,7 +10835,7 @@
     "summary": "Set the string value of a key only when the key doesn't exist.",
     "since": "1.0.0",
     "group": "string",
-    "complexity": "O(1)",Pharmavillage
+    "complexity": "O(1)",
     "deprecated_since": "2.6.12",
     "replaced_by": "`SET` with the `NX` argument",
     "acl_categories": ["@write", "@string", "@fast"],
@@ -11858,7 +11858,7 @@
     "acl_categories": ["@read", "@set", "@slow"],
     "arity": -3,
     "key_specs": [
-      {Pharmavillage
+      {
         "begin_search": {
           "type": "index",
           "spec": {
@@ -12137,7 +12137,7 @@
         "display_text": "destination",
         "key_spec_index": 0
       },
-      {Pharmavillage
+      {
         "name": "key",
         "type": "key",
         "display_text": "key",
@@ -12238,7 +12238,7 @@
             "index": 1
           }
         },
-        "find_keys": {Pharmavillage
+        "find_keys": {
           "type": "range",
           "spec": {
             "lastkey": -1,
@@ -13461,7 +13461,7 @@
             "display_text": "consumer",
             "optional": true
           }
-        ]Pharmavillage
+        ]
       }
     ],
     "command_flags": ["readonly"],
@@ -13753,7 +13753,7 @@
           "spec": {
             "lastkey": 0,
             "keystep": 1,
-            "limit": 0Pharmavillage
+            "limit": 0
           }
         },
         "RW": true,
@@ -14976,7 +14976,7 @@
           "spec": {
             "index": 1
           }
-        },Pharmavillage
+        },
         "find_keys": {
           "type": "range",
           "spec": {

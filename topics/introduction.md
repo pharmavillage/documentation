@@ -1,4 +1,3 @@
-
 ---
 description: Get started with Redis Community Edition
 hideListLinks: true
@@ -6,16 +5,17 @@ linkTitle: Community Edition
 title: Community Edition
 type: develop
 ---
+
 Redis is an [in-memory data store]({{< relref "/develop/get-started/data-store" >}}) used by millions of developers as a cache, [vector database]({{< relref "/develop/get-started/vector-database" >}}), [document database]({{< relref "/develop/get-started/document-database" >}}), [streaming engine]({{< relref "/develop/data-types/streams" >}}), and message broker. Redis has built-in replication and different levels of [on-disk persistence]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It supports complex [data types]({{< relref "/develop/data-types/" >}}) (for example, strings, hashes, lists, sets, sorted sets, and JSON), with atomic operations defined on those data types.
 
 You can install Redis from source, from an executable for your OS, or bundled with Redis Stack and Redis Insight which include popular features and monitoring.
 
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
-* [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
+- [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+- [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
+- [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
+- [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
+- [Install Redis with Redis Stack and Redis Insight]({{< relref "/operate/oss_and_stack/install/install-stack" >}})
+- [Run Redis Stack on Docker]({{< relref "/operate/oss_and_stack/install/install-stack/docker" >}})
 
 ## Use cases
 
@@ -50,7 +50,7 @@ The following guides will help you to get started with your preferred deployment
 
 Get started with **[Redis Cloud]({{< relref "/operate/rc/" >}})** by creating a database:
 
-- The [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}) helps you create a free database.  (Start here if you're new.)
+- The [Redis Cloud quick start]({{< relref "/operate/rc/rc-quickstart" >}}) helps you create a free database. (Start here if you're new.)
 - [Create an Essentials database]({{< relref "/operate/rc/databases/create-database/create-essentials-database" >}}) with a memory limit up to 12 GB.
 - [Create a Pro database]({{< relref "/operate/rc/databases/create-database/create-pro-database-new" >}}) that suits your workload and offers seamless scaling.
 

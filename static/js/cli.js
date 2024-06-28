@@ -219,7 +219,7 @@ async function execute(commands, dbid = "") {
     cache: "no-cache",
     credentials: "same-origin",
     headers: {
-      "Content-Type": "application/json",
+      "content-type": "application/json",
     },
     body: JSON.stringify({
       commands,

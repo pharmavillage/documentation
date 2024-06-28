@@ -2,7 +2,7 @@
 echo "Step 1: Post a request to create a cloud account"
 
 TASK_ID=$(curl -s -X POST "https://$HOST/cloud-accounts" \
-    --header "Content-Type: application/json" \
+    --header "content-type: application/json" \
     -H "accept: application/json" \
     -H "x-api-key: $ACCOUNT_KEY" \
     -H "x-api-secret-key: $SECRET_KEY" \

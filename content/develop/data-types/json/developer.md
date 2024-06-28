@@ -1,17 +1,17 @@
 ---
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
-description: 'Notes on debugging, testing and documentation
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
+description: "Notes on debugging, testing and documentation
 
-  '
+  "
 linkTitle: Developer notes
 title: Developer notes
 weight: 7
@@ -22,11 +22,15 @@ weight: 7
 Developing Redis JSON involves setting up the development environment (which can be either Linux-based or macOS-based), building RedisJSON (the Redis module providing JSON), running tests and benchmarks, and debugging both the JSON module and its tests.
 
 ## Cloning the git repository
+
 To clone the RedisJSON module and its submodules, run:
+
 ```sh
 git clone --recursive https://github.com/RedisJSON/RedisJSON.git
 ```
+
 ## Working in an isolated environment
+
 There are several reasons to use an isolated environment for development, like keeping your workstation clean and developing for a different Linux distribution.
 
 You can use a virtual machine as an isolated development environment. To set one up, you can use [Vagrant](https://www.vagrantup.com) or Docker.
@@ -37,10 +41,11 @@ To set up a virtual machine with Docker:
 rejson=$(docker run -d -it -v $PWD:/build debian:bullseye bash)
 docker exec -it $rejson bash
 ```
-Then run ```cd /build``` from within the container.
+
+Then run `cd /build` from within the container.
 
 In this mode, all installations remain in the scope of the Docker container.
-After you exit the container, you can either restart it with the previous ```docker exec``` command or save the state of the container to an image and resume it at a later time:
+After you exit the container, you can either restart it with the previous `docker exec` command or save the state of the container to an image and resume it at a later time:
 
 ```
 docker commit $rejson redisjson1
@@ -65,23 +70,26 @@ $ ./sbin/setup
 
 If you prefer to avoid that, you can:
 
-* Review `system-setup.py` and install packages manually,
-* Use `system-setup.py --nop` to display installation commands without executing them,
-* Use an isolated environment like explained above,
-* Use a Python virtual environment, as Python installations are known to be sensitive when not used in isolation: `python -m virtualenv venv; . ./venv/bin/activate`
+- Review `system-setup.py` and install packages manually,
+- Use `system-setup.py --nop` to display installation commands without executing them,
+- Use an isolated environment like explained above,
+- Use a Python virtual environment, as Python installations are known to be sensitive when not used in isolation: `python -m virtualenv venv; . ./venv/bin/activate`
 
 ## Installing Redis
+
 Generally, it is best to run the latest Redis version.
 
 If your OS has a Redis 6.x package, you can install it using the OS package manager.
 
 Otherwise, you can invoke
+
 ```sh
 $ ./deps/readies/bin/getredis
 ```
 
 ## Getting help
-```make help``` provides a quick summary of the development features:
+
+`make help` provides a quick summary of the development features:
 
 ```
 make setup         # install prerequisites
@@ -125,7 +133,7 @@ make upload-cov    # upload coverage analysis results to codecov.io (implies COV
 
 make docker        # build for specific Linux distribution
   OSNICK=nick        # Linux distribution to build for
-  REDIS_VER=ver      # use Redis version `ver`
+  PHARMAVILLAGE_VER=ver      # use Redis version `ver`
   TEST=1             # test after build
   PACK=1             # create packages
   ARTIFACTS=1        # copy artifacts from docker image
@@ -135,37 +143,40 @@ make sanbox        # create container for CLang Sanitizer tests
 ```
 
 ## Building from source
-Run ```make build``` to build RedisJSON.
+
+Run `make build` to build RedisJSON.
 
 Notes:
 
-* Binary files are placed under `target/release/`, according to platform and build variant.
+- Binary files are placed under `target/release/`, according to platform and build variant.
 
-* RedisJSON uses [Cargo](https://github.com/rust-lang/cargo) as its build system. ```make build``` will invoke both Cargo and the subsequent `make` command that's required to complete the build.
+- RedisJSON uses [Cargo](https://github.com/rust-lang/cargo) as its build system. `make build` will invoke both Cargo and the subsequent `make` command that's required to complete the build.
 
-Use ```make clean``` to remove built artifacts. ```make clean ALL=1``` will remove the entire bin subdirectory.
+Use `make clean` to remove built artifacts. `make clean ALL=1` will remove the entire bin subdirectory.
 
 ## Running tests
-There are several sets of unit tests:
-* Rust tests, integrated in the source code, run by ```make cargo_test```.
-* Python tests (enabled by RLTest), located in ```tests/pytests```, run by ```make pytest```.
 
-You can run all tests with ```make test```.
-To run only specific tests, use the ```TEST``` parameter. For example, run ```make test TEST=regex```.
+There are several sets of unit tests:
+
+- Rust tests, integrated in the source code, run by `make cargo_test`.
+- Python tests (enabled by RLTest), located in `tests/pytests`, run by `make pytest`.
+
+You can run all tests with `make test`.
+To run only specific tests, use the `TEST` parameter. For example, run `make test TEST=regex`.
 
 You can run the module's tests against an "embedded" disposable Redis instance or against an instance
 you provide. To use the "embedded" mode, you must include the `redis-server` executable in your `PATH`.
 
-You can override the spawning of the embedded server by specifying a Redis port via the `REDIS_PORT`
+You can override the spawning of the embedded server by specifying a Redis port via the `PHARMAVILLAGE_PORT`
 environment variable, e.g.:
 
 ```bash
 $ # use an existing local Redis instance for testing the module
-$ REDIS_PORT=6379 make test
+$ PHARMAVILLAGE_PORT=6379 make test
 ```
 
 ## Debugging
+
 To include debugging information, you need to set the [`DEBUG`]({{< relref "/commands/debug" >}}) environment variable before you compile RedisJSON. For example, run `export DEBUG=1`.
 
-You can add breakpoints to Python tests in single-test mode. To set a breakpoint, call the ```BB()``` function inside a test.
-
+You can add breakpoints to Python tests in single-test mode. To set a breakpoint, call the `BB()` function inside a test.

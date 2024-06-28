@@ -2,11 +2,11 @@
 LinkTitle: RedisOM for .NET
 Title: RedisOM for .NET
 categories:
-- docs
-- integrate
-- oss
-- rs
-- rc
+  - docs
+  - integrate
+  - oss
+  - rs
+  - rc
 description: Learn how to build with Redis Stack and .NET
 group: library
 stack: true
@@ -20,10 +20,10 @@ weight: 9
 
 ## Prerequisites
 
-* [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
-* Any IDE for writing .NET (Visual Studio, Rider, Visual Studio Code).
-* RediSearch must be installed as part of your Redis Stack configuration.
-* Optional: Docker Desktop for running redis-stack in docker for local testing.
+- [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- Any IDE for writing .NET (Visual Studio, Rider, Visual Studio Code).
+- RediSearch must be installed as part of your Redis Stack configuration.
+- Optional: Docker Desktop for running redis-stack in docker for local testing.
 
 ## Skip to the code
 
@@ -49,7 +49,7 @@ Then open the `Redis.OM.Skeleton.csproj` file in your IDE of choice.
 
 ## Configure the app
 
-Add a `REDIS_CONNECTION_STRING` field to your `appsettings.json` file to configure the application. Set that connection string to be the URI of your Redis instance. If using the docker command mentioned earlier, your connection string will be `redis://localhost:6379`.
+Add a `PHARMAVILLAGE_CONNECTION_STRING` field to your `appsettings.json` file to configure the application. Set that connection string to be the URI of your Redis instance. If using the docker command mentioned earlier, your connection string will be `redis://localhost:6379`.
 
 ### Connection string specification
 
@@ -60,7 +60,7 @@ The specification for Redis URIs is located [here](https://www.iana.org/assignme
 Make sure to add the `Redis.OM` package to your project. This package makes it easy to create models and query your Redis domain objects.
 
 ```bash
-dotnet add package Redis.OM     
+dotnet add package Redis.OM
 ```
 
 Now it's time to create the `Person`/`Address` model that the app will use for storing/retrieving people. Create a new directory called `Model` and add the files `Address.cs` and `Person.cs` to it. In `Address.cs`, add the following:
@@ -74,25 +74,25 @@ public class Address
 {
     [Indexed]
     public int? StreetNumber { get; set; }
-    
+
     [Indexed]
     public string? Unit { get; set; }
-    
+
     [Searchable]
     public string? StreetName { get; set; }
-    
+
     [Indexed]
     public string? City { get; set; }
-    
+
     [Indexed]
     public string? State { get; set; }
-    
+
     [Indexed]
     public string? PostalCode { get; set; }
-    
+
     [Indexed]
     public string? Country { get; set; }
-    
+
     [Indexed]
     public GeoLoc Location { get; set; }
 }
@@ -109,25 +109,25 @@ namespace Redis.OM.Skeleton.Model;
 
 [Document(StorageType = StorageType.Json, Prefixes = new []{"Person"})]
 public class Person
-{    
+{
     [RedisIdField] [Indexed]public string? Id { get; set; }
-    
+
     [Indexed] public string? FirstName { get; set; }
 
     [Indexed] public string? LastName { get; set; }
-    
+
     [Indexed] public int Age { get; set; }
-    
+
     [Searchable] public string? PersonalStatement { get; set; }
-    
-    [Indexed] public string[] Skills { get; set; } = Array.Empty<string>();    
-    
+
+    [Indexed] public string[] Skills { get; set; } = Array.Empty<string>();
+
     [Indexed(CascadeDepth = 1)] public Address? Address { get; set; }
-    
+
 }
 ```
 
-There are a few things to take note of here: 
+There are a few things to take note of here:
 
 1. `[Document(StorageType = StorageType.Json, Prefixes = new []{"Person"})]` Indicates that the data type that Redis OM will use to store the document in Redis is JSON and that the prefix for the keys for the Person class will be `Person`.
 
@@ -152,7 +152,7 @@ public class IndexCreationService : IHostedService
     {
         _provider = provider;
     }
-    
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         await _provider.Connection.CreateIndexAsync(typeof(Person));
@@ -176,7 +176,7 @@ builder.Services.AddHostedService<IndexCreationService>();
 Redis OM uses the `RedisConnectionProvider` class to handle connections to Redis and provides the classes you can use to interact with Redis. To use it, simply inject an instance of the RedisConnectionProvider into your app. In your `Program.cs` file, add:
 
 ```csharp
-builder.Services.AddSingleton(new RedisConnectionProvider(builder.Configuration["REDIS_CONNECTION_STRING"]));
+builder.Services.AddSingleton(new RedisConnectionProvider(builder.Configuration["PHARMAVILLAGE_CONNECTION_STRING"]));
 ```
 
 This will pull your connection string out of the config and initialize the provider. The provider will now be available in your controllers/services to use.
@@ -218,7 +218,6 @@ public PeopleController(RedisConnectionProvider provider)
 
 The first route to add to the API is a POST request for creating a person, using the `RedisCollection`, it's as simple as calling `InsertAsync`, passing in the person object:
 
-
 ```csharp
 [HttpPost]
 public async Task<Person> AddPerson([FromBody] Person person)
@@ -235,7 +234,7 @@ The first filter route to add to the API will let the user filter by a minimum a
 ```csharp
 [HttpGet("filterAge")]
 public IList<Person> FilterByAge([FromQuery] int minAge, [FromQuery] int maxAge)
-{        
+{
     return _people.Where(x => x.Age >= minAge && x.Age <= maxAge).ToList();
 }
 ```
@@ -243,7 +242,6 @@ public IList<Person> FilterByAge([FromQuery] int minAge, [FromQuery] int maxAge)
 ### Filter by GeoLocation
 
 Redis OM has a `GeoLoc` data structure, an instance of which is indexed by the `Address` model, with the `RedisCollection`, it's possible to find all objects with a radius of particular position using the `GeoFilter` method along with the field you want to filter:
-
 
 ```csharp
 [HttpGet("filterGeo")]
@@ -275,7 +273,6 @@ public IList<Person> FilterByPostalCode([FromQuery] string postalCode)
 
 When a property in the model is marked as `Searchable`, like `StreetAddress` and `PersonalStatement`, you can perform a full-text search, see the filters for the `PersonalStatement` and `StreetAddress`:
 
-
 ```csharp
 [HttpGet("fullText")]
 public IList<Person> FilterByPersonalStatement([FromQuery] string text){
@@ -305,7 +302,6 @@ public IList<Person> FilterBySkill([FromQuery] string skill)
 
 Updating a document in Redis Stack with Redis OM can be done by first materializing the person object, making your desired changes, and then calling `Save` on the collection. The collection is responsible for keeping track of updates made to entities materialized in it; therefore, it will track and apply any updates you make in it. For example, add the following route to update the age of a Person given their Id:
 
-
 ```csharp
 [HttpPatch("updateAge/{id}")]
 public IActionResult UpdateAge([FromRoute] string id, [FromBody] int newAge)
@@ -322,7 +318,6 @@ public IActionResult UpdateAge([FromRoute] string id, [FromBody] int newAge)
 ### Delete a person
 
 Deleting a document from Redis can be done with `Unlink`. All that's needed is to call Unlink, passing in the key name. Given an id, we can reconstruct the key name using the prefix and the id:
-
 
 ```csharp
 [HttpDelete("{id}")]
@@ -360,4 +355,3 @@ You can view the data by following these steps:
 ## Resources
 
 The source code for this tutorial can be found in [GitHub](https://github.com/redis-developer/redis-om-dotnet-skeleton-app).
-

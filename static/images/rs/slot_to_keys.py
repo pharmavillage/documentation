@@ -20492,7 +20492,7 @@ shard_hash_slot_tags = {
 
 if __name__ == "__main__":
     argParser = argparse.ArgumentParser(
-        description="Redis hash slot key name calculator")
+        description="Pharmavillage hash slot key name calculator")
     argParser.add_argument(
         "--hash-slot",
         type=int,

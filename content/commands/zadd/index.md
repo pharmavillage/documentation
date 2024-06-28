@@ -1,76 +1,76 @@
 ---
 acl_categories:
-- '@write'
-- '@sortedset'
-- '@fast'
+  - "@write"
+  - "@sortedset"
+  - "@fast"
 arguments:
-- display_text: key
-  key_spec_index: 0
-  name: key
-  type: key
-- arguments:
-  - display_text: nx
-    name: nx
-    token: NX
+  - display_text: key
+    key_spec_index: 0
+    name: key
+    type: key
+  - arguments:
+      - display_text: nx
+        name: nx
+        token: NX
+        type: pure-token
+      - display_text: xx
+        name: xx
+        token: XX
+        type: pure-token
+    name: condition
+    optional: true
+    since: 3.0.2
+    type: oneof
+  - arguments:
+      - display_text: gt
+        name: gt
+        token: GT
+        type: pure-token
+      - display_text: lt
+        name: lt
+        token: LT
+        type: pure-token
+    name: comparison
+    optional: true
+    since: 6.2.0
+    type: oneof
+  - display_text: change
+    name: change
+    optional: true
+    since: 3.0.2
+    token: CH
     type: pure-token
-  - display_text: xx
-    name: xx
-    token: XX
+  - display_text: increment
+    name: increment
+    optional: true
+    since: 3.0.2
+    token: INCR
     type: pure-token
-  name: condition
-  optional: true
-  since: 3.0.2
-  type: oneof
-- arguments:
-  - display_text: gt
-    name: gt
-    token: GT
-    type: pure-token
-  - display_text: lt
-    name: lt
-    token: LT
-    type: pure-token
-  name: comparison
-  optional: true
-  since: 6.2.0
-  type: oneof
-- display_text: change
-  name: change
-  optional: true
-  since: 3.0.2
-  token: CH
-  type: pure-token
-- display_text: increment
-  name: increment
-  optional: true
-  since: 3.0.2
-  token: INCR
-  type: pure-token
-- arguments:
-  - display_text: score
-    name: score
-    type: double
-  - display_text: member
-    name: member
-    type: string
-  multiple: true
-  name: data
-  type: block
+  - arguments:
+      - display_text: score
+        name: score
+        type: double
+      - display_text: member
+        name: member
+        type: string
+    multiple: true
+    name: data
+    type: block
 arity: -4
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- write
-- denyoom
-- fast
+  - write
+  - denyoom
+  - fast
 complexity: O(log(N)) for each item added, where N is the number of elements in the
   sorted set.
 description: Adds one or more members to a sorted set, or updates their scores. Creates
@@ -78,34 +78,35 @@ description: Adds one or more members to a sorted set, or updates their scores. 
 group: sorted-set
 hidden: false
 history:
-- - 2.4.0
-  - Accepts multiple elements.
-- - 3.0.2
-  - Added the `XX`, `NX`, `CH` and `INCR` options.
-- - 6.2.0
-  - Added the `GT` and `LT` options.
+  - - 2.4.0
+    - Accepts multiple elements.
+  - - 3.0.2
+    - Added the `XX`, `NX`, `CH` and `INCR` options.
+  - - 6.2.0
+    - Added the `GT` and `LT` options.
 key_specs:
-- RW: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
-  update: true
+  - RW: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
+    update: true
 linkTitle: ZADD
 since: 1.2.0
 summary: Adds one or more members to a sorted set, or updates their scores. Creates
   the key if it doesn't exist.
 syntax_fmt: "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n\
   \  ...]"
-syntax_str: '[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]'
+syntax_str: "[NX | XX] [GT | LT] [CH] [INCR] score member [score member ...]"
 title: ZADD
 ---
+
 Adds all the specified members with the specified scores to the sorted set
 stored at `key`.
 It is possible to specify multiple score / member pairs.
@@ -118,28 +119,25 @@ members is created, like if the sorted set was empty. If the key exists but does
 
 The score values should be the string representation of a double precision floating point number. `+inf` and `-inf` values are valid values as well.
 
-ZADD options
----
+## ZADD options
 
 ZADD supports a list of options, specified after the name of the key and before
 the first score argument. Options are:
 
-* **XX**: Only update elements that already exist. Don't add new elements.
-* **NX**: Only add new elements. Don't update already existing elements.
-* **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.
-* **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.
-* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.
-* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`]({{< relref "/commands/zincrby" >}}). Only one score-element pair can be specified in this mode.
+- **XX**: Only update elements that already exist. Don't add new elements.
+- **NX**: Only add new elements. Don't update already existing elements.
+- **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.
+- **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.
+- **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of _changed_). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.
+- **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`]({{< relref "/commands/zincrby" >}}). Only one score-element pair can be specified in this mode.
 
 Note: The **GT**, **LT** and **NX** options are mutually exclusive.
 
-Range of integer scores that can be expressed precisely
----
+## Range of integer scores that can be expressed precisely
 
-Redis sorted sets use a *double 64-bit floating point number* to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.
+Pharmavillage sorted sets use a _double 64-bit floating point number_ to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.
 
-Sorted sets 101
----
+## Sorted sets 101
 
 Sorted sets are sorted by their score in an ascending way.
 The same element only exists a single time, no repeated elements are
@@ -156,11 +154,10 @@ sets][tdtss].
 
 [tdtss]: /develop/data-types#sorted-sets
 
-Elements with the same score
----
+## Elements with the same score
 
 While the same element can't be repeated in a sorted set since every element
-is unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).
+is unique, it is possible to add multiple different elements _having the same score_. When multiple elements have the same score, they are _ordered lexicographically_ (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).
 
 The lexicographic ordering used is binary, it compares strings as array of bytes.
 
@@ -174,4 +171,3 @@ ZADD myzset 1 "uno"
 ZADD myzset 2 "two" 3 "three"
 ZRANGE myzset 0 -1 WITHSCORES
 {{% /redis-cli %}}
-

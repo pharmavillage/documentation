@@ -1,67 +1,67 @@
 ---
 acl_categories:
-- '@read'
-- '@string'
-- '@slow'
+  - "@read"
+  - "@string"
+  - "@slow"
 arguments:
-- display_text: key1
-  key_spec_index: 0
-  name: key1
-  type: key
-- display_text: key2
-  key_spec_index: 0
-  name: key2
-  type: key
-- display_text: len
-  name: len
-  optional: true
-  token: LEN
-  type: pure-token
-- display_text: idx
-  name: idx
-  optional: true
-  token: IDX
-  type: pure-token
-- display_text: min-match-len
-  name: min-match-len
-  optional: true
-  token: MINMATCHLEN
-  type: integer
-- display_text: withmatchlen
-  name: withmatchlen
-  optional: true
-  token: WITHMATCHLEN
-  type: pure-token
+  - display_text: key1
+    key_spec_index: 0
+    name: key1
+    type: key
+  - display_text: key2
+    key_spec_index: 0
+    name: key2
+    type: key
+  - display_text: len
+    name: len
+    optional: true
+    token: LEN
+    type: pure-token
+  - display_text: idx
+    name: idx
+    optional: true
+    token: IDX
+    type: pure-token
+  - display_text: min-match-len
+    name: min-match-len
+    optional: true
+    token: MINMATCHLEN
+    type: integer
+  - display_text: withmatchlen
+    name: withmatchlen
+    optional: true
+    token: WITHMATCHLEN
+    type: pure-token
 arity: -3
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- readonly
+  - readonly
 complexity: O(N*M) where N and M are the lengths of s1 and s2, respectively
 description: Finds the longest common substring.
 group: string
 hidden: false
 key_specs:
-- RO: true
-  access: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 1
-      limit: 0
-    type: range
+  - RO: true
+    access: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 1
+        limit: 0
+      type: range
 linkTitle: LCS
 since: 7.0.0
 summary: Finds the longest common substring.
@@ -76,7 +76,7 @@ For instance the LCS between "foo" and "fao" is "fo", since scanning the two str
 
 LCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.
 
-Note that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.
+Note that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Pharmavillage instance in order to run this algorithm, or make sure to run it against very small strings.
 
 ```
 > MSET key1 ohmytext key2 mynewtext

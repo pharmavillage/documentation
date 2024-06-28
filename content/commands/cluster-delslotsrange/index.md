@@ -1,34 +1,34 @@
 ---
 acl_categories:
-- '@admin'
-- '@slow'
-- '@dangerous'
+  - "@admin"
+  - "@slow"
+  - "@dangerous"
 arguments:
-- arguments:
-  - display_text: start-slot
-    name: start-slot
-    type: integer
-  - display_text: end-slot
-    name: end-slot
-    type: integer
-  multiple: true
-  name: range
-  type: block
+  - arguments:
+      - display_text: start-slot
+        name: start-slot
+        type: integer
+      - display_text: end-slot
+        name: end-slot
+        type: integer
+    multiple: true
+    name: range
+    type: block
 arity: -4
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- admin
-- stale
-- no_async_loading
+  - admin
+  - stale
+  - no_async_loading
 complexity: O(N) where N is the total number of the slots between the start slot and
   end slot arguments.
 description: Sets hash slot ranges as unbound for a node.
@@ -38,9 +38,10 @@ linkTitle: CLUSTER DELSLOTSRANGE
 since: 7.0.0
 summary: Sets hash slot ranges as unbound for a node.
 syntax_fmt: CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]
-syntax_str: ''
+syntax_str: ""
 title: CLUSTER DELSLOTSRANGE
 ---
+
 The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) command in that they both remove hash slots from the node.
 The difference is that [`CLUSTER DELSLOTS`]({{< relref "/commands/cluster-delslots" >}}) takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.
 
@@ -60,9 +61,9 @@ However, note that:
 
 1. The command only works if all the specified slots are already associated with the node.
 2. The command fails if the same slot is specified multiple times.
-3. As a side effect of the command execution, the node may go into *down* state because not all hash slots are covered.
+3. As a side effect of the command execution, the node may go into _down_ state because not all hash slots are covered.
 
-## Usage in Redis Cluster
+## Usage in Pharmavillage Cluster
 
 This command only works in cluster mode and may be useful for
 debugging and in order to manually orchestrate a cluster configuration

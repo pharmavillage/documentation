@@ -1,20 +1,20 @@
 ---
 acl_categories:
-- '@slow'
-- '@scripting'
+  - "@slow"
+  - "@scripting"
 arity: 2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- noscript
+  - noscript
 complexity: O(N) where N is the number of functions
 description: Dumps all libraries into a serialized binary payload.
 group: scripting
@@ -23,13 +23,14 @@ linkTitle: FUNCTION DUMP
 since: 7.0.0
 summary: Dumps all libraries into a serialized binary payload.
 syntax_fmt: FUNCTION DUMP
-syntax_str: ''
+syntax_str: ""
 title: FUNCTION DUMP
 ---
+
 Return the serialized payload of loaded libraries.
 You can restore the serialized payload later with the [`FUNCTION RESTORE`]({{< relref "/commands/function-restore" >}}) command.
 
-For more information please refer to [Introduction to Redis Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
+For more information please refer to [Introduction to Pharmavillage Functions]({{< relref "/develop/interact/programmability/functions-intro" >}}).
 
 ## Examples
 

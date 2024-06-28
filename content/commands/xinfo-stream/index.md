@@ -1,64 +1,64 @@
 ---
 acl_categories:
-- '@read'
-- '@stream'
-- '@slow'
+  - "@read"
+  - "@stream"
+  - "@slow"
 arguments:
-- display_text: key
-  key_spec_index: 0
-  name: key
-  type: key
-- arguments:
-  - display_text: full
-    name: full
-    token: FULL
-    type: pure-token
-  - display_text: count
-    name: count
+  - display_text: key
+    key_spec_index: 0
+    name: key
+    type: key
+  - arguments:
+      - display_text: full
+        name: full
+        token: FULL
+        type: pure-token
+      - display_text: count
+        name: count
+        optional: true
+        token: COUNT
+        type: integer
+    name: full-block
     optional: true
-    token: COUNT
-    type: integer
-  name: full-block
-  optional: true
-  type: block
+    type: block
 arity: -3
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- readonly
+  - readonly
 complexity: O(1)
 description: Returns information about a stream.
 group: stream
 hidden: false
 history:
-- - 6.0.0
-  - Added the `FULL` modifier.
-- - 7.0.0
-  - Added the `max-deleted-entry-id`, `entries-added`, `recorded-first-entry-id`,
-    `entries-read` and `lag` fields
-- - 7.2.0
-  - Added the `active-time` field, and changed the meaning of `seen-time`.
+  - - 6.0.0
+    - Added the `FULL` modifier.
+  - - 7.0.0
+    - Added the `max-deleted-entry-id`, `entries-added`, `recorded-first-entry-id`,
+      `entries-read` and `lag` fields
+  - - 7.2.0
+    - Added the `active-time` field, and changed the meaning of `seen-time`.
 key_specs:
-- RO: true
-  access: true
-  begin_search:
-    spec:
-      index: 2
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
+  - RO: true
+    access: true
+    begin_search:
+      spec:
+        index: 2
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
 linkTitle: XINFO STREAM
 since: 5.0.0
 summary: Returns information about a stream.
@@ -66,19 +66,20 @@ syntax_fmt: "XINFO STREAM key [FULL [COUNT\_count]]"
 syntax_str: "[FULL [COUNT\_count]]"
 title: XINFO STREAM
 ---
+
 This command returns information about the stream stored at `<key>`.
 
 The informative details provided by this command are:
 
-* **length**: the number of entries in the stream (see [`XLEN`]({{< relref "/commands/xlen" >}}))
-* **radix-tree-keys**: the number of keys in the underlying radix data structure
-* **radix-tree-nodes**: the number of nodes in the underlying radix data structure
-* **groups**: the number of consumer groups defined for the stream
-* **last-generated-id**: the ID of the least-recently entry that was added to the stream
-* **max-deleted-entry-id**: the maximal entry ID that was deleted from the stream
-* **entries-added**: the count of all entries added to the stream during its lifetime
-* **first-entry**: the ID and field-value tuples of the first entry in the stream
-* **last-entry**: the ID and field-value tuples of the last entry in the stream
+- **length**: the number of entries in the stream (see [`XLEN`]({{< relref "/commands/xlen" >}}))
+- **radix-tree-keys**: the number of keys in the underlying radix data structure
+- **radix-tree-nodes**: the number of nodes in the underlying radix data structure
+- **groups**: the number of consumer groups defined for the stream
+- **last-generated-id**: the ID of the least-recently entry that was added to the stream
+- **max-deleted-entry-id**: the maximal entry ID that was deleted from the stream
+- **entries-added**: the count of all entries added to the stream during its lifetime
+- **first-entry**: the ID and field-value tuples of the first entry in the stream
+- **last-entry**: the ID and field-value tuples of the last entry in the stream
 
 ### The `FULL` modifier
 
@@ -88,30 +89,30 @@ Furthermore, **groups** is also an array, and for each of the consumer groups it
 
 The following information is provided for each of the groups:
 
-* **name**: the consumer group's name
-* **last-delivered-id**: the ID of the last entry delivered to the group's consumers
-* **entries-read**: the logical "read counter" of the last entry delivered to the group's consumers
-* **lag**: the number of entries in the stream that are still waiting to be delivered to the group's consumers, or a NULL when that number can't be determined.
-* **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged
-* **pending**: an array with pending entries information (see below)
-* **consumers**: an array with consumers information (see below)
+- **name**: the consumer group's name
+- **last-delivered-id**: the ID of the last entry delivered to the group's consumers
+- **entries-read**: the logical "read counter" of the last entry delivered to the group's consumers
+- **lag**: the number of entries in the stream that are still waiting to be delivered to the group's consumers, or a NULL when that number can't be determined.
+- **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged
+- **pending**: an array with pending entries information (see below)
+- **consumers**: an array with consumers information (see below)
 
 The following information is provided for each pending entry:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.
+2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current _owner_ of the message.
 3. The UNIX timestamp of when the message was delivered to this consumer.
 4. The number of times this message was delivered.
 
 The following information is provided for each consumer:
 
-* **name**: the consumer's name
-* **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), [`XCLAIM`]({{< relref "/commands/xclaim" >}}), [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}))
-* **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) that actually read some entries into the PEL, [`XCLAIM`]({{< relref "/commands/xclaim" >}})/[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) that actually claimed some entries)
-* **pel-count**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged
-* **pending**: an array with pending entries information, has the same structure as described above, except the consumer name is omitted (redundant, since anyway we are in a specific consumer context)
+- **name**: the consumer's name
+- **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), [`XCLAIM`]({{< relref "/commands/xclaim" >}}), [`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}))
+- **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) that actually read some entries into the PEL, [`XCLAIM`]({{< relref "/commands/xclaim" >}})/[`XAUTOCLAIM`]({{< relref "/commands/xautoclaim" >}}) that actually claimed some entries)
+- **pel-count**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged
+- **pending**: an array with pending entries information, has the same structure as described above, except the consumer name is omitted (redundant, since anyway we are in a specific consumer context)
 
-Note that before Redis 7.2.0, **seen-time** used to denote the last successful interaction.
+Note that before Pharmavillage 7.2.0, **seen-time** used to denote the last successful interaction.
 In 7.2.0, **active-time** was added and **seen-time** was changed to denote the last attempted interaction.
 
 The `COUNT` option can be used to limit the number of stream and PEL entries that are returned (The first `<count>` entries are returned).

@@ -1,12 +1,12 @@
 ---
 categories:
-- docs
-- operate
-- stack
-- oss
-description: 'Performance engineering guide for on-CPU profiling and tracing
+  - docs
+  - operate
+  - stack
+  - oss
+description: "Performance engineering guide for on-CPU profiling and tracing
 
-  '
+  "
 linkTitle: CPU profiling
 title: Redis CPU profiling
 weight: 1
@@ -15,34 +15,34 @@ weight: 1
 ## Filling the performance checklist
 
 Redis is developed with a great emphasis on performance. We do our best with
-every release to make sure you'll experience a very stable and fast product. 
+every release to make sure you'll experience a very stable and fast product.
 
 Nevertheless, if you're finding room to improve the efficiency of Redis or
 are pursuing a performance regression investigation you will need a concise
-methodical way of monitoring and analyzing Redis performance. 
+methodical way of monitoring and analyzing Redis performance.
 
-To do so you can rely on different methodologies (some more suited than other 
+To do so you can rely on different methodologies (some more suited than other
 depending on the class of issues/analysis we intend to make). A curated list
 of methodologies and their steps are enumerated by Brendan Greg at the
-[following link](http://www.brendangregg.com/methodology.html). 
+[following link](http://www.brendangregg.com/methodology.html).
 
 We recommend the Utilization Saturation and Errors (USE) Method for answering
 the question of what is your bottleneck. Check the following mapping between
 system resource, metric, and tools for a practical deep dive:
-[USE method](http://www.brendangregg.com/USEmethod/use-rosetta.html). 
+[USE method](http://www.brendangregg.com/USEmethod/use-rosetta.html).
 
 ### Ensuring the CPU is your bottleneck
 
-This guide assumes you've followed one of the above methodologies to perform a 
-complete check of system health, and identified the bottleneck being the CPU. 
+This guide assumes you've followed one of the above methodologies to perform a
+complete check of system health, and identified the bottleneck being the CPU.
 **If you have identified that most of the time is spent blocked on I/O, locks,
-timers, paging/swapping, etc., this guide is not for you**. 
+timers, paging/swapping, etc., this guide is not for you**.
 
 ### Build Prerequisites
 
 For a proper On-CPU analysis, Redis (and any dynamically loaded library like
 Redis Modules) requires stack traces to be available to tracers, which you may
-need to fix first. 
+need to fix first.
 
 By default, Redis is compiled with the `-O2` switch (which we intent to keep
 during profiling). This means that compiler optimizations are enabled. Many
@@ -54,15 +54,16 @@ available frame pointer of a call stack that can get a lot deeper (but
 impossible to trace).
 
 It's important that you ensure that:
+
 - debug information is present: compile option `-g`
 - frame pointer register is present: `-fno-omit-frame-pointer`
 - we still run with optimizations to get an accurate representation of production run times, meaning we will keep: `-O2`
 
 You can do it as follows within redis main repo:
 
-    $ make REDIS_CFLAGS="-g -fno-omit-frame-pointer"
+    $ make PHARMAVILLAGE_CFLAGS="-g -fno-omit-frame-pointer"
 
-## A set of instruments to identify performance regressions and/or potential **on-CPU performance** improvements 
+## A set of instruments to identify performance regressions and/or potential **on-CPU performance** improvements
 
 This document focuses specifically on **on-CPU** resource bottlenecks analysis,
 meaning we're interested in understanding where threads are spending CPU cycles
@@ -105,7 +106,7 @@ per second:
 #### Displaying the recorded profile information using perf report
 
 By default perf record will generate a perf.data file in the current working
-directory. 
+directory.
 
 You can then report with a call-graph output (call chain, stack backtrace),
 with a minimum call graph inclusion threshold of 0.5%, with:
@@ -142,7 +143,7 @@ for more advanced stack trace visualizations (like the differential one).
 So that analysis of the perf.data contents can be possible on a machine other
 than the one on which collection happened, you need to export along with the
 perf.data file all object files with build-ids found in the record data file.
-This can be easily done with the help of 
+This can be easily done with the help of
 [perf-archive.sh](https://github.com/torvalds/linux/blob/master/tools/perf/perf-archive.sh)
 script:
 
@@ -155,10 +156,10 @@ Now please run:
 on the machine where you need to run `perf report`.
 
 ### Sampling stack traces using bcc/BPF's profile
-    
+
 Similarly to perf, as of Linux kernel 4.9, BPF-optimized profiling is now fully
 available with the promise of lower overhead on CPU (as stack traces are
-frequency counted in kernel context) and disk I/O resources during profiling. 
+frequency counted in kernel context) and disk I/O resources during profiling.
 
 Apart from that, and relying solely on bcc/BPF's profile tool, we have also
 removed the perf.data and intermediate steps if stack traces analysis is our
@@ -193,7 +194,6 @@ called, you can rely upon call counts analysis using BCC's `funccount` tool:
     prepareClientToWrite                     1442
     Detaching...
 
-
 The above output shows that, while tracing, the Redis's call() function was
 called 334 times, handleClientsWithPendingWrites() 388 times, etc.
 
@@ -205,18 +205,18 @@ behavior, including memory I/O, stall cycles, and cache misses, and provide
 low-level CPU performance statistics that aren't available anywhere else.
 
 The design and functionality of a PMU is CPU-specific and you should assess
-your CPU supported counters and features by using `perf list`. 
+your CPU supported counters and features by using `perf list`.
 
 To calculate the number of instructions per cycle, the number of micro ops
 executed, the number of cycles during which no micro ops were dispatched, the
 number stalled cycles on memory, including a per memory type stalls, for the
-duration of 60s, specifically for redis process: 
+duration of 60s, specifically for redis process:
 
     $ perf stat -e "cpu-clock,cpu-cycles,instructions,uops_executed.core,uops_executed.stall_cycles,cache-references,cache-misses,cycle_activity.stalls_total,cycle_activity.stalls_mem_any,cycle_activity.stalls_l3_miss,cycle_activity.stalls_l2_miss,cycle_activity.stalls_l1d_miss" --pid $(pgrep redis-server) -- sleep 60
 
     Performance counter stats for process id '3038':
 
-      60046.411437      cpu-clock (msec)          #    1.001 CPUs utilized          
+      60046.411437      cpu-clock (msec)          #    1.001 CPUs utilized
       168991975443      cpu-cycles                #    2.814 GHz                      (36.40%)
       388248178431      instructions              #    2.30  insn per cycle           (45.50%)
       443134227322      uops_executed.core        # 7379.862 M/sec                    (45.51%)
@@ -235,4 +235,3 @@ It's important to know that there are two very different ways in which PMCs can
 be used (counting and sampling), and we've focused solely on PMCs counting for
 the sake of this analysis. Brendan Greg clearly explains it on the following
 [link](http://www.brendangregg.com/blog/2017-05-04/the-pmcs-of-ec2.html).
-

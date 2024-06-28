@@ -1,52 +1,52 @@
 ---
 acl_categories:
-- '@read'
-- '@stream'
-- '@slow'
+  - "@read"
+  - "@stream"
+  - "@slow"
 arguments:
-- display_text: key
-  key_spec_index: 0
-  name: key
-  type: key
-- display_text: group
-  name: group
-  type: string
-- arguments:
-  - display_text: min-idle-time
-    name: min-idle-time
+  - display_text: key
+    key_spec_index: 0
+    name: key
+    type: key
+  - display_text: group
+    name: group
+    type: string
+  - arguments:
+      - display_text: min-idle-time
+        name: min-idle-time
+        optional: true
+        since: 6.2.0
+        token: IDLE
+        type: integer
+      - display_text: start
+        name: start
+        type: string
+      - display_text: end
+        name: end
+        type: string
+      - display_text: count
+        name: count
+        type: integer
+      - display_text: consumer
+        name: consumer
+        optional: true
+        type: string
+    name: filters
     optional: true
-    since: 6.2.0
-    token: IDLE
-    type: integer
-  - display_text: start
-    name: start
-    type: string
-  - display_text: end
-    name: end
-    type: string
-  - display_text: count
-    name: count
-    type: integer
-  - display_text: consumer
-    name: consumer
-    optional: true
-    type: string
-  name: filters
-  optional: true
-  type: block
+    type: block
 arity: -3
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- readonly
+  - readonly
 complexity: O(N) with N being the number of elements returned, so asking for a small
   fixed number of entries per call is O(1). O(M), where M is the total number of entries
   scanned when used with the IDLE filter. When the command returns just the summary
@@ -57,23 +57,23 @@ description: Returns the information and entries from a stream consumer group's 
 group: stream
 hidden: false
 hints:
-- nondeterministic_output
+  - nondeterministic_output
 history:
-- - 6.2.0
-  - Added the `IDLE` option and exclusive range intervals.
+  - - 6.2.0
+    - Added the `IDLE` option and exclusive range intervals.
 key_specs:
-- RO: true
-  access: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
+  - RO: true
+    access: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
 linkTitle: XPENDING
 since: 5.0.0
 summary: Returns the information and entries from a stream consumer group's pending
@@ -82,10 +82,11 @@ syntax_fmt: "XPENDING key group [[IDLE\_min-idle-time] start end count [consumer
 syntax_str: "group [[IDLE\_min-idle-time] start end count [consumer]]"
 title: XPENDING
 ---
+
 Fetching data from a stream via a consumer group, and not acknowledging
-such data, has the effect of creating *pending entries*. This is
+such data, has the effect of creating _pending entries_. This is
 well explained in the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) command, and even better in our
-[introduction to Redis Streams]({{< relref "/develop/data-types/streams" >}}). The [`XACK`]({{< relref "/commands/xack" >}}) command
+[introduction to Pharmavillage Streams]({{< relref "/develop/data-types/streams" >}}). The [`XACK`]({{< relref "/commands/xack" >}}) command
 will immediately remove the pending entry from the Pending Entries List (PEL)
 since once a message is successfully processed, there is no longer need
 for the consumer group to track it and to remember the current owner
@@ -149,7 +150,7 @@ at least one pending message, and the number of pending messages it has.
 The summary provides a good overview, but sometimes we are interested in the
 details. In order to see all the pending messages with more associated
 information we need to also pass a range of IDs, in a similar way we do it with
-[`XRANGE`]({{< relref "/commands/xrange" >}}), and a non optional *count* argument, to limit the number
+[`XRANGE`]({{< relref "/commands/xrange" >}}), and a non optional _count_ argument, to limit the number
 of messages returned per call:
 
 ```
@@ -165,12 +166,12 @@ is detailed information for each message in the pending entries list. For
 each message four attributes are returned:
 
 1. The ID of the message.
-2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.
+2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current _owner_ of the message.
 3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.
 4. The number of times this message was delivered.
 
 The deliveries counter, that is the fourth element in the array, is incremented
-when some other consumer *claims* the message with [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or when the
+when some other consumer _claims_ the message with [`XCLAIM`]({{< relref "/commands/xclaim" >}}), or when the
 message is delivered again via [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}), when accessing the history
 of a consumer in a consumer group (see the [`XREADGROUP`]({{< relref "/commands/xreadgroup" >}}) page for more info).
 

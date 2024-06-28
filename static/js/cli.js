@@ -1,5 +1,5 @@
-const API_URL = 'https://cli.redis.io',
-  PROMPT_PREFIX = 'redis> ';
+const API_URL = "https://cli.redis.io",
+  PROMPT_PREFIX = "redis> ";
 
 async function createCli(cli) {
   const toExecute = getCommandsToExecute(cli);
@@ -7,74 +7,67 @@ async function createCli(cli) {
 
   const pre = createPre(cli),
     [input, prompt] = createPrompt(cli),
-    dbid = cli.getAttribute('dbid');
+    dbid = cli.getAttribute("dbid");
 
-  drawTerminal(cli);  
+  drawTerminal(cli);
   handleHistory(pre, input);
 
   try {
     await asciiArt(cli, dbid, pre, input);
   } finally {
-    cli.addEventListener(
-      'submit',
-      event => {
-        event.preventDefault();
+    cli.addEventListener("submit", (event) => {
+      event.preventDefault();
 
-        const command = input.value;
-        input.value = '';
-        if (!command.trim()) {
-          writeLines(pre, input, command, '', false);
-          return;
-        }
-
-        disablePrompt(cli, input, prompt,
-          () => executeInputCommand(dbid, pre, input, command)
-        );
+      const command = input.value;
+      input.value = "";
+      if (!command.trim()) {
+        writeLines(pre, input, command, "", false);
+        return;
       }
-    );
+
+      disablePrompt(cli, input, prompt, () => executeInputCommand(dbid, pre, input, command));
+    });
 
     if (toExecute) {
-      disablePrompt(cli, input, prompt, () =>
-        executeCommands(dbid, pre, input, toExecute, shouldAnimate(cli)));
+      disablePrompt(cli, input, prompt, () => executeCommands(dbid, pre, input, toExecute, shouldAnimate(cli)));
     }
   }
 }
 
 function drawBadge(cli) {
   if (shouldAnimate(cli)) {
-    return
+    return;
   }
-  const badge = document.createElement('div');
-  badge.classList.add('powered');
-  badge.appendChild(document.createTextNode('Powered by'));
+  const badge = document.createElement("div");
+  badge.classList.add("powered");
+  badge.appendChild(document.createTextNode("Powered by"));
   cli.appendChild(badge);
 }
 
 function drawTerminal(cli) {
-    if (!isTerminal(cli)) return;
-    const bar = document.createElement('div');
-    bar.classList.add('bar');
+  if (!isTerminal(cli)) return;
+  const bar = document.createElement("div");
+  bar.classList.add("bar");
 
-    const buttons = ['#d00', '#0d0', '#00d'];
-    buttons.forEach((b) => {
-      let button = document.createElement('span');
-      button.classList.add('button')
-      // button.style.backgroundColor = b;
-      bar.appendChild(button);
-    });
+  const buttons = ["#d00", "#0d0", "#00d"];
+  buttons.forEach((b) => {
+    let button = document.createElement("span");
+    button.classList.add("button");
+    // button.style.backgroundColor = b;
+    bar.appendChild(button);
+  });
 
-    cli.classList.add('terminal');
-    cli.prepend(bar);
+  cli.classList.add("terminal");
+  cli.prepend(bar);
 }
 
 function isTerminal(cli) {
-    return cli.getAttribute('terminal') !== null
+  return cli.getAttribute("terminal") !== null;
 }
 
 function shouldAnimate(cli) {
   try {
-    return cli.getAttribute('typewriter') !== null &&
-      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return cli.getAttribute("typewriter") !== null && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   } catch {
     return true;
   }
@@ -84,66 +77,65 @@ function getCommandsToExecute(cli) {
   const textContent = cli.textContent.trim();
   if (!textContent) return;
 
-  return textContent.split('\n').map(x => x.trim());
+  return textContent.split("\n").map((x) => x.trim());
 }
 
 function createPre(cli) {
-  const pre = document.createElement('pre');
-  pre.setAttribute('tabindex', '0');
+  const pre = document.createElement("pre");
+  pre.setAttribute("tabindex", "0");
   cli.appendChild(pre);
   return pre;
 }
 
 function createPrompt(cli) {
-  const prompt = document.createElement('div');
-  prompt.classList.add('prompt');
+  const prompt = document.createElement("div");
+  prompt.classList.add("prompt");
 
-  const prefix = document.createElement('span');
+  const prefix = document.createElement("span");
   prefix.appendChild(document.createTextNode(PROMPT_PREFIX));
   prompt.appendChild(prefix);
 
-  const input = document.createElement('input');
-  input.setAttribute('name', 'prompt');
-  input.setAttribute('type', 'text');
-  input.setAttribute('autocomplete', 'off');
-  input.setAttribute('spellcheck', 'false');
+  const input = document.createElement("input");
+  input.setAttribute("name", "prompt");
+  input.setAttribute("type", "text");
+  input.setAttribute("autocomplete", "off");
+  input.setAttribute("spellcheck", "false");
   prompt.appendChild(input);
 
   cli.appendChild(prompt);
 
-  cli.addEventListener('click', () => {
-    if (document.getSelection().type === 'Range') return;
+  cli.addEventListener("click", () => {
+    if (document.getSelection().type === "Range") return;
     input.focus();
   });
 
-  cli.addEventListener('keydown', event =>  {
+  cli.addEventListener("keydown", (event) => {
     if (event.target === input) return;
     if (event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) return;
     input.focus();
-    input.scrollIntoView({block: "nearest"});
+    input.scrollIntoView({ block: "nearest" });
   });
   return [input, prompt];
 }
 
 async function disablePrompt(cli, input, prompt, fn) {
-  cli.classList.add('disabled');
+  cli.classList.add("disabled");
   input.disabled = true;
-  prompt.style.display = 'none';
-  const p = Promise.all([fn()])
-    .then(() => {
-      prompt.style.display = '';
-      cli.classList.remove('disabled');
-      input.disabled = false;
-      input.focus({preventScroll: true});
-    });
+  prompt.style.display = "none";
+  const p = Promise.all([fn()]).then(() => {
+    prompt.style.display = "";
+    cli.classList.remove("disabled");
+    input.disabled = false;
+    input.focus({ preventScroll: true });
+  });
 }
 
 function handleHistory(pre, input) {
   let position = 0,
-    tempValue = '';
-  input.addEventListener('keydown', event => {
+    tempValue = "";
+  input.addEventListener("keydown", (event) => {
     switch (event.key) {
-      case 'ArrowUp':
+      case "ArrowUp":
         event.preventDefault();
 
         if (position === Math.floor(pre.childNodes.length / 2)) return;
@@ -152,7 +144,7 @@ function handleHistory(pre, input) {
         ++position;
         break;
 
-      case 'ArrowDown':
+      case "ArrowDown":
         event.preventDefault();
 
         if (position === 0) return;
@@ -183,8 +175,8 @@ async function writeLines(pre, input, command, reply, animate) {
 
 async function executeCommands(dbid, pre, input, commands, animate) {
   try {
-     const { replies } = await execute(commands, dbid);
-     for (const [i, command] of commands.entries()) {
+    const { replies } = await execute(commands, dbid);
+    for (const [i, command] of commands.entries()) {
       const { error, value } = replies[i];
       try {
         await writeLines(pre, input, command, error ? `(error) ${value}` : formatReply(value), animate, false);
@@ -202,14 +194,14 @@ async function executeCommands(dbid, pre, input, commands, animate) {
 
 async function executeInputCommand(dbid, pre, input, command) {
   switch (command.toLowerCase()) {
-    case 'clear':
+    case "clear":
       pre.replaceChildren();
       break;
 
-    case 'help':
+    case "help":
       writeLine(pre, input, command, false, false);
-      writeLine(pre, input, 'No problem! Let me just open this url for you: https://redis.io/commands', false, false);
-      window.open('https://redis.io/commands');
+      writeLine(pre, input, "No problem! Let me just open this url for you: https://redis.io/commands", false, false);
+      window.open("https://redis.io/commands");
       break;
 
     default:
@@ -220,44 +212,44 @@ async function executeInputCommand(dbid, pre, input, command) {
 
 let id;
 
-async function execute(commands, dbid = '') {
+async function execute(commands, dbid = "") {
   const response = await fetch(API_URL, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
+    method: "POST",
+    mode: "cors",
+    cache: "no-cache",
+    credentials: "same-origin",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       commands,
-      id
-    })
+      id,
+    }),
   });
   const reply = await response.json();
   id = reply.id;
   return reply;
 }
 
-function formatReply(reply, indent = '') {
+function formatReply(reply, indent = "") {
   if (reply === null) {
-    return '(nil)';
+    return "(nil)";
   }
 
   const type = typeof reply;
-  if (type === 'string') {
+  if (type === "string") {
     return `"${reply}"`;
-  } else if (type === 'number') {
+  } else if (type === "number") {
     return `(integer) ${reply}`;
   } else if (Array.isArray(reply)) {
     if (reply.length === 0) {
-      return '(empty array)';
+      return "(empty array)";
     } else {
-      let s = '';
+      let s = "";
       for (const [i, x] of reply.entries()) {
         const num = i + 1,
-          nestedIndent = indent + ' '.repeat(num.toString().length + 2);
-        s += `${i === 0 ? '' : `\n${indent}`}${num}) ${formatReply(x, nestedIndent)}`;
+          nestedIndent = indent + " ".repeat(num.toString().length + 2);
+        s += `${i === 0 ? "" : `\n${indent}`}${num}) ${formatReply(x, nestedIndent)}`;
       }
       return s;
     }
@@ -267,21 +259,21 @@ function formatReply(reply, indent = '') {
 }
 
 async function writeLine(pre, input, line, animate, prompt) {
-  const textNode = document.createTextNode('');
+  const textNode = document.createTextNode("");
   pre.appendChild(textNode);
 
-  const toWrite = line + '\n';
+  const toWrite = line + "\n";
   if (prompt) textNode.nodeValue = PROMPT_PREFIX;
   if (!animate) {
     textNode.nodeValue += toWrite;
   } else {
     await typewriter(textNode, toWrite);
   }
-  input.scrollIntoView({block: "nearest"});
+  input.scrollIntoView({ block: "nearest" });
 }
 
 function typewriter(textNode, toWrite) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     let i = 0;
     const intervalId = setInterval(() => {
       if (i === toWrite.length) {
@@ -291,14 +283,16 @@ function typewriter(textNode, toWrite) {
       }
 
       textNode.nodeValue += toWrite[i++];
-    }, 10+Math.random()*25);
+    }, 10 + Math.random() * 25);
   });
 }
 
 async function asciiArt(cli, dbid, pre, input) {
-  if (cli.getAttribute('asciiart') === null) return;
+  if (cli.getAttribute("asciiart") === null) return;
 
-  const { replies: [{ error, value: raw }] } = await execute(['INFO SERVER'], dbid);
+  const {
+    replies: [{ error, value: raw }],
+  } = await execute(["INFO SERVER"], dbid);
 
   if (error) {
     writeLine(pre, input, `(error) ${raw}`, false);
@@ -313,11 +307,11 @@ async function asciiArt(cli, dbid, pre, input) {
     writeLine(
       pre,
       input,
-`${pid}:C ${time} # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+      `${pid}:C ${time} # oO0OoO0OoO0Oo Pharmavillage is starting oO0OoO0OoO0Oo
 ${pid}:C ${time} # Configuration loaded
                   _._
             _.-\`\`__ ''-._
-      _.-\`\`    \`.  \`_.  ''-._            Redis ${version} (${sha}/${dirty}) ${bits} bit
+      _.-\`\`    \`.  \`_.  ''-._            Pharmavillage ${version} (${sha}/${dirty}) ${bits} bit
     .-\`\` .-\`\`\`.  \`\`\`\/    _.,_ ''-._
   (    '      ,       .-\`  | \`,    )     Running in standalone mode
   |\`-._\`-...-\` __...-.\`\`-._|'\` _.-'|     Port: ${port}
@@ -335,12 +329,13 @@ ${pid}:C ${time} # Configuration loaded
 
 ${pid}:M ${time} # Server initialized
 ${pid}:M ${time} * Ready to accept connections`,
-        false);
+      false
+    );
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  for (const cli of document.querySelectorAll('form.redis-cli')) {
+document.addEventListener("DOMContentLoaded", () => {
+  for (const cli of document.querySelectorAll("form.redis-cli")) {
     createCli(cli);
   }
 });

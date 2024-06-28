@@ -1,58 +1,58 @@
 ---
 acl_categories:
-- '@read'
-- '@stream'
-- '@slow'
+  - "@read"
+  - "@stream"
+  - "@slow"
 arguments:
-- display_text: key
-  key_spec_index: 0
-  name: key
-  type: key
-- display_text: start
-  name: start
-  type: string
-- display_text: end
-  name: end
-  type: string
-- display_text: count
-  name: count
-  optional: true
-  token: COUNT
-  type: integer
+  - display_text: key
+    key_spec_index: 0
+    name: key
+    type: key
+  - display_text: start
+    name: start
+    type: string
+  - display_text: end
+    name: end
+    type: string
+  - display_text: count
+    name: count
+    optional: true
+    token: COUNT
+    type: integer
 arity: -4
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- readonly
+  - readonly
 complexity: O(N) with N being the number of elements being returned. If N is constant
   (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1).
 description: Returns the messages from a stream within a range of IDs.
 group: stream
 hidden: false
 history:
-- - 6.2.0
-  - Added exclusive ranges.
+  - - 6.2.0
+    - Added exclusive ranges.
 key_specs:
-- RO: true
-  access: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
+  - RO: true
+    access: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
 linkTitle: XRANGE
 since: 5.0.0
 summary: Returns the messages from a stream within a range of IDs.
@@ -60,6 +60,7 @@ syntax_fmt: "XRANGE key start end [COUNT\_count]"
 syntax_str: "start end [COUNT\_count]"
 title: XRANGE
 ---
+
 The command returns the stream entries matching a given range of IDs.
 The range is specified by a minimum and maximum ID. All the entries having
 an ID between the two specified or exactly one of the two IDs specified
@@ -67,12 +68,12 @@ an ID between the two specified or exactly one of the two IDs specified
 
 The `XRANGE` command has a number of applications:
 
-* Returning items in a specific time range. This is possible because
+- Returning items in a specific time range. This is possible because
   Stream IDs are [related to time]({{< relref "/develop/data-types/streams" >}}).
-* Iterating a stream incrementally, returning just
+- Iterating a stream incrementally, returning just
   a few items at every iteration. However it is semantically much more
   robust than the [`SCAN`]({{< relref "/commands/scan" >}}) family of functions.
-* Fetching a single entry from a stream, providing the ID of the entry
+- Fetching a single entry from a stream, providing the ID of the entry
   to fetch two times: as start and end of the query interval.
 
 The command also has a reciprocal command returning items in the
@@ -139,8 +140,8 @@ character `(`. This is useful for iterating the stream, as explained below.
 
 Using the **COUNT** option it is possible to reduce the number of entries
 reported. This is a very important feature even if it may look marginal,
-because it allows, for instance, to model operations such as *give me
-the entry greater or equal to the following*:
+because it allows, for instance, to model operations such as _give me
+the entry greater or equal to the following_:
 
 ```
 > XRANGE somestream 1526985054069-0 + COUNT 1
@@ -178,7 +179,7 @@ elements, which is trivial:
 ```
 
 Then instead of starting the iteration again from `-`, as the start
-of the range we use the entry ID of the *last* entry returned by the
+of the range we use the entry ID of the _last_ entry returned by the
 previous `XRANGE` call as an exclusive interval.
 
 The ID of the last entry is `1526985685298-0`, so we just prefix it
@@ -208,15 +209,15 @@ The command [`XREAD`]({{< relref "/commands/xread" >}}) is also able to iterate 
 The command [`XREVRANGE`]({{< relref "/commands/xrevrange" >}}) can iterate the stream reverse, from higher IDs
 (or times) to lower IDs (or times).
 
-### Iterating with earlier versions of Redis
+### Iterating with earlier versions of Pharmavillage
 
-While exclusive range intervals are only available from Redis 6.2, it is still
+While exclusive range intervals are only available from Pharmavillage 6.2, it is still
 possible to use a similar stream iteration pattern with earlier versions. You
 start fetching from the stream the same way as described above to obtain the
 first entries.
 
 For the subsequent calls, you'll need to programmatically advance the last
-entry's ID returned. Most Redis client should abstract this detail, but the
+entry's ID returned. Most Pharmavillage client should abstract this detail, but the
 implementation can also be in the application if needed. In the example above,
 this means incrementing the sequence of `1526985685298-0` by one, from 0 to 1.
 The second call would, therefore, be:
@@ -229,7 +230,7 @@ The second call would, therefore, be:
 ...
 ```
 
-Also, note that once the sequence part of the last ID equals 
+Also, note that once the sequence part of the last ID equals
 18446744073709551615, you'll need to increment the timestamp and reset the
 sequence part to 0. For example, incrementing the ID
 `1526985685298-18446744073709551615` should result in `1526985685299-0`.
@@ -259,18 +260,17 @@ of XRANGE:
 
 ## Additional information about streams
 
-For further information about Redis streams please check our
-[introduction to Redis Streams document]({{< relref "/develop/data-types/streams" >}}).
+For further information about Pharmavillage streams please check our
+[introduction to Pharmavillage Streams document]({{< relref "/develop/data-types/streams" >}}).
 
 ## Examples
 
 {{% redis-cli %}}
-XADD writers * name Virginia surname Woolf
-XADD writers * name Jane surname Austen
-XADD writers * name Toni surname Morrison
-XADD writers * name Agatha surname Christie
-XADD writers * name Ngozi surname Adichie
+XADD writers _ name Virginia surname Woolf
+XADD writers _ name Jane surname Austen
+XADD writers _ name Toni surname Morrison
+XADD writers _ name Agatha surname Christie
+XADD writers \* name Ngozi surname Adichie
 XLEN writers
 XRANGE writers - + COUNT 2
 {{% /redis-cli %}}
-

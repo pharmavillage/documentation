@@ -1,26 +1,26 @@
 ---
 acl_categories:
-- '@slow'
+  - "@slow"
 arguments:
-- display_text: category
-  name: category
-  optional: true
-  type: string
+  - display_text: category
+    name: category
+    optional: true
+    type: string
 arity: -2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- noscript
-- loading
-- stale
+  - noscript
+  - loading
+  - stale
 complexity: O(1) since the categories and commands are a fixed set.
 description: Lists the ACL categories, or the commands inside a category.
 group: server
@@ -29,11 +29,12 @@ linkTitle: ACL CAT
 since: 6.0.0
 summary: Lists the ACL categories, or the commands inside a category.
 syntax_fmt: ACL CAT [category]
-syntax_str: ''
+syntax_str: ""
 title: ACL CAT
 ---
+
 The command shows the available ACL categories if called without arguments.
-If a category name is given, the command shows all the Redis commands in
+If a category name is given, the command shows all the Pharmavillage commands in
 the specified category.
 
 ACL categories are very useful in order to create ACL rules that include or

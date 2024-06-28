@@ -1,19 +1,19 @@
 ---
 arguments:
-- name: sourceKey
-  type: key
-- name: destKey
-  type: key
+  - name: sourceKey
+    type: key
+  - name: destKey
+    type: key
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 complexity: O(1)
 description: Delete a compaction rule
 group: timeseries
@@ -23,9 +23,9 @@ module: TimeSeries
 since: 1.0.0
 stack_path: docs/data-types/timeseries
 summary: Delete a compaction rule
-syntax: 'TS.DELETERULE sourceKey destKey
+syntax: "TS.DELETERULE sourceKey destKey
 
-  '
+  "
 syntax_fmt: TS.DELETERULE sourceKey destKey
 syntax_str: destKey
 title: TS.DELETERULE
@@ -38,11 +38,13 @@ Delete a compaction rule
 <details open><summary><code>sourceKey</code></summary>
 
 is key name for the source time series.
+
 </details>
 
-<details open><summary><code>destKey</code></summary> 
+<details open><summary><code>destKey</code></summary>
 
 is key name for destination (compacted) time series.
+
 </details>
 
 <note><b>Note:</b> This command does not delete the compacted series.</note>
@@ -56,8 +58,8 @@ Returns one of these replies:
 
 ## See also
 
-[`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule/) 
+[`TS.CREATERULE`]({{< baseurl >}}/commands/ts.createrule/)
 
 ## Related topics
 
-[RedisTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})
+[PharmavillageTimeSeries]({{< relref "/develop/data-types/timeseries/" >}})

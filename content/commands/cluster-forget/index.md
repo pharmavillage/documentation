@@ -1,27 +1,27 @@
 ---
 acl_categories:
-- '@admin'
-- '@slow'
-- '@dangerous'
+  - "@admin"
+  - "@slow"
+  - "@dangerous"
 arguments:
-- display_text: node-id
-  name: node-id
-  type: string
+  - display_text: node-id
+    name: node-id
+    type: string
 arity: 3
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- admin
-- stale
-- no_async_loading
+  - admin
+  - stale
+  - no_async_loading
 complexity: O(1)
 description: Removes a node from the nodes table.
 group: cluster
@@ -30,12 +30,13 @@ linkTitle: CLUSTER FORGET
 since: 3.0.0
 summary: Removes a node from the nodes table.
 syntax_fmt: CLUSTER FORGET node-id
-syntax_str: ''
+syntax_str: ""
 title: CLUSTER FORGET
 ---
+
 The command is used in order to remove a node, specified via its node ID,
-from the set of *known nodes* of the Redis Cluster node receiving the command.
-In other words the specified node is removed from the *nodes table* of the
+from the set of _known nodes_ of the Pharmavillage Cluster node receiving the command.
+In other words the specified node is removed from the _nodes table_ of the
 node receiving the command.
 
 Because when a given node is part of the cluster, all the other nodes
@@ -47,7 +48,7 @@ or replicas.
 However the command cannot simply drop the node from the internal node
 table of the node receiving the command, it also implements a ban-list, not
 allowing the same node to be added again as a side effect of processing the
-*gossip section* of the heartbeat packets received from other nodes.
+_gossip section_ of the heartbeat packets received from other nodes.
 
 ## Details on why the ban-list is needed
 

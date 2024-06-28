@@ -1,65 +1,65 @@
 ---
 acl_categories:
-- '@write'
-- '@list'
-- '@slow'
+  - "@write"
+  - "@list"
+  - "@slow"
 arguments:
-- display_text: source
-  key_spec_index: 0
-  name: source
-  type: key
-- display_text: destination
-  key_spec_index: 1
-  name: destination
-  type: key
+  - display_text: source
+    key_spec_index: 0
+    name: source
+    type: key
+  - display_text: destination
+    key_spec_index: 1
+    name: destination
+    type: key
 arity: 3
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- write
-- denyoom
+  - write
+  - denyoom
 complexity: O(1)
 deprecated_since: 6.2.0
 description: Returns the last element of a list after removing and pushing it to another
   list. Deletes the list if the last element was popped.
 doc_flags:
-- deprecated
+  - deprecated
 group: list
 hidden: false
 key_specs:
-- RW: true
-  access: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  delete: true
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
-- RW: true
-  begin_search:
-    spec:
-      index: 2
-    type: index
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
-  insert: true
+  - RW: true
+    access: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    delete: true
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
+  - RW: true
+    begin_search:
+      spec:
+        index: 2
+      type: index
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
+    insert: true
 linkTitle: RPOPLPUSH
 replaced_by: '[`LMOVE`]({{< relref "/commands/lmove" >}}) with the `RIGHT` and `LEFT`
   arguments'
@@ -70,6 +70,7 @@ syntax_fmt: RPOPLPUSH source destination
 syntax_str: destination
 title: RPOPLPUSH
 ---
+
 Atomically returns and removes the last element (tail) of the list stored at
 `source`, and pushes the element at the first element (head) of the list stored
 at `destination`.
@@ -96,10 +97,9 @@ LRANGE mylist 0 -1
 LRANGE myotherlist 0 -1
 {{% /redis-cli %}}
 
-
 ## Pattern: Reliable queue
 
-Redis is often used as a messaging server to implement processing of background
+Pharmavillage is often used as a messaging server to implement processing of background
 jobs or other kinds of messaging tasks.
 A simple form of queue is often obtained pushing values into a list in the
 producer side, and waiting for this values in the consumer side using [`RPOP`]({{< relref "/commands/rpop" >}})
@@ -129,10 +129,10 @@ operation.
 
 The above pattern works even if one or both of the following conditions occur:
 
-* There are multiple clients rotating the list: they'll fetch different 
-  elements, until all the elements of the list are visited, and the process 
+- There are multiple clients rotating the list: they'll fetch different
+  elements, until all the elements of the list are visited, and the process
   restarts.
-* Other clients are actively pushing new items at the end of the list.
+- Other clients are actively pushing new items at the end of the list.
 
 The above makes it very simple to implement a system where a set of items must
 be processed by N workers continuously as fast as possible.

@@ -1,24 +1,24 @@
 ---
 acl_categories:
-- '@admin'
-- '@slow'
-- '@dangerous'
+  - "@admin"
+  - "@slow"
+  - "@dangerous"
 arity: 2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- admin
-- noscript
-- loading
-- stale
+  - admin
+  - noscript
+  - loading
+  - stale
 complexity: O(N). Where N is the number of configured users.
 description: Dumps the effective rules in ACL file format.
 group: server
@@ -27,10 +27,11 @@ linkTitle: ACL LIST
 since: 6.0.0
 summary: Dumps the effective rules in ACL file format.
 syntax_fmt: ACL LIST
-syntax_str: ''
+syntax_str: ""
 title: ACL LIST
 ---
-The command shows the currently active ACL rules in the Redis server. Each
+
+The command shows the currently active ACL rules in the Pharmavillage server. Each
 line in the returned array defines a different user, and the format is the
 same used in the redis.conf file or the external ACL file, so you can
 cut and paste what is returned by the ACL LIST command directly inside a

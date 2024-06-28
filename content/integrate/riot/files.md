@@ -20,7 +20,7 @@ The `file-import` command reads data from files and writes it to Redis.
 The basic usage for file imports is:
 
 ```
-riot -h <host> -p <port> file-import FILE... [REDIS COMMAND...]
+riot -h <host> -p <port> file-import FILE... [PHARMAVILLAGE COMMAND...]
 ```
 
 To show the full usage, run:
@@ -75,11 +75,11 @@ Gzipped files are supported and the extension before `.gz` is used (e.g., `myfil
 
 **Examples**
 
-* `/path/file.csv`
-* `/path/file-*.csv`
-* `/path/file.json`
-* `http://data.com/file.csv`
-* `http://data.com/file.json.gz`
+- `/path/file.csv`
+- `/path/file-*.csv`
+- `/path/file.json`
+- `http://data.com/file.csv`
+- `http://data.com/file.json.gz`
 
 {{< tip >}}
 Use `-` to read from standard input.
@@ -110,11 +110,11 @@ Otherwise specify the field names using the `--fields` option.
 Consider this CSV file:
 
 **[beers.csv](https://raw.githubusercontent.com/nickhould/craft-beers-dataset/master/data/processed/beers.csv)**
-|   | abv   | ibu | id   | name                | style                   | brewery_id | ounces |
+| | abv | ibu | id | name | style | brewery_id | ounces |
 |---|-------|-----|------|---------------------|-------------------------|------------|--------|
-| 0 | 0.05  |     | 1436 | Pub Beer            | American Pale Lager     | 408        | 12.0   |
-| 1 | 0.066 |     | 2265 | Devil's Cup         | American Pale Ale (APA) | 177        | 12.0   |
-| 2 | 0.071 |     | 2264 | Rise of the Phoenix | American IPA            | 177        | 12.0   |
+| 0 | 0.05 | | 1436 | Pub Beer | American Pale Lager | 408 | 12.0 |
+| 1 | 0.066 | | 2265 | Devil's Cup | American Pale Ale (APA) | 177 | 12.0 |
+| 2 | 0.071 | | 2264 | Rise of the Phoenix | American IPA | 177 | 12.0 |
 
 The following command imports that CSV file into Redis as hashes using `beer` as the key prefix and `id` as primary key.
 This creates hashes with keys `beer:1436`, `beer:2265`, etc.
@@ -166,7 +166,7 @@ RIOT uses a field naming convention to flatten JSON objects and arrays:
 
 `{ "field": { "sub": "value" } }` -> `field.sub=value`
 
-`{ "field": [1, 2, 3] }` ->  `field[0]=1 field[1]=2 field[2]=3`
+`{ "field": [1, 2, 3] }` -> `field[0]=1 field[1]=2 field[2]=3`
 
 ### XML
 
@@ -220,38 +220,38 @@ riot file-export --help
 
 ### Redis reader options
 
-* **`--scan-count`**\
-    How many keys to read at once on each call to [SCAN]({{< baseurl >}}/commands/scan#the-count-option)
-* **`--scan-match`**\
-    Pattern of keys to scan for (default: `*` i.e. all keys)
-* **`--scan-type`**\
-    Type of keys to scan for (default: all types)  
-* **`--key-include`**\
-    Regular expressions for keys to whitelist.
-    For example `mykey:.*` will only consider keys starting with `mykey:`.
-* **`--key-exclude`**\
-    Regular expressions for keys to blacklist.
-    For example `mykey:.*` will not consider keys starting with `mykey:`.
-* **`--key-slots`**\
-    Ranges of key slots to consider for processing.
-    For example `0:8000` will only consider keys that fall within the range `0` to `8000`.
-* **`--read-threads`**\
-    How many value reader threads to use in parallel
-* **`--read-batch`**\
-    Number of values each reader thread should read in a pipelined call
-* **`--read-queue`**\
-    Max number of items that reader threads can put in the shared queue.
-    When the queue is full, reader threads wait for space to become available.
-    Queue size should be at least **#threads * batch**, e.g. `--read-threads 4 --read-batch 500` => `--read-queue 2000`
-* **`--read-pool`**\
-    Size of the connection pool shared by reader threads.
-    Can be smaller than the number of threads
-* **`--read-from`**\
+- **`--scan-count`**\
+   How many keys to read at once on each call to [SCAN]({{< baseurl >}}/commands/scan#the-count-option)
+- **`--scan-match`**\
+   Pattern of keys to scan for (default: `*` i.e. all keys)
+- **`--scan-type`**\
+   Type of keys to scan for (default: all types)
+- **`--key-include`**\
+   Regular expressions for keys to whitelist.
+  For example `mykey:.*` will only consider keys starting with `mykey:`.
+- **`--key-exclude`**\
+   Regular expressions for keys to blacklist.
+  For example `mykey:.*` will not consider keys starting with `mykey:`.
+- **`--key-slots`**\
+   Ranges of key slots to consider for processing.
+  For example `0:8000` will only consider keys that fall within the range `0` to `8000`.
+- **`--read-threads`**\
+   How many value reader threads to use in parallel
+- **`--read-batch`**\
+   Number of values each reader thread should read in a pipelined call
+- **`--read-queue`**\
+   Max number of items that reader threads can put in the shared queue.
+  When the queue is full, reader threads wait for space to become available.
+  Queue size should be at least **#threads \* batch**, e.g. `--read-threads 4 --read-batch 500` => `--read-queue 2000`
+- **`--read-pool`**\
+   Size of the connection pool shared by reader threads.
+  Can be smaller than the number of threads
+- **`--read-from`**\
    Which Redis cluster nodes to read from: `master`, `master_preferred`, `upstream`, `upstream_preferred`, `replica_preferred`, `replica`, `lowest_latency`, `any`, `any_replica`. See [Read-From Settings](https://github.com/lettuce-io/lettuce-core/wiki/ReadFrom-Settings#read-from-settings) for more details.
-* **`--mem-limit`**\
-    Maximum memory usage in megabytes for a key to be read (default: 0). Use 0 to disable memory usage checks.
-* **`--mem-samples`**\
-    Number of memory usage samples for a key (default: 5).
+- **`--mem-limit`**\
+   Maximum memory usage in megabytes for a key to be read (default: 0). Use 0 to disable memory usage checks.
+- **`--mem-samples`**\
+   Number of memory usage samples for a key (default: 5).
 
 ### Examples
 
@@ -289,19 +289,13 @@ riot file-export /tmp/redis.xml
   {
     "key": "list:1",
     "ttl": -1,
-    "value": [
-      "member:991",
-      "member:981"
-    ],
+    "value": ["member:991", "member:981"],
     "type": "LIST"
   },
   {
     "key": "set:2",
     "ttl": -1,
-    "value": [
-      "member:2",
-      "member:3"
-    ],
+    "value": ["member:2", "member:3"],
     "type": "SET"
   },
   {

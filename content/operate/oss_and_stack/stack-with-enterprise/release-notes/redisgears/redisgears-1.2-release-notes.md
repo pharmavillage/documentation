@@ -2,9 +2,9 @@
 Title: RedisGears 1.2 release notes
 alwaysopen: false
 categories:
-- docs
-- operate
-- stack
+  - docs
+  - operate
+  - stack
 description: Plugins and JVM support. Python async await. Override commands API. Register
   functions on key miss events. Tracks new statistics. Python profiler support. Extended
   RedisAI integration.
@@ -30,10 +30,12 @@ Update urgency: `LOW` : No need to upgrade unless there are new features or fixe
 ### Details
 
 **Features:**
+
 - [#832](https://github.com/RedisGears/RedisGears/pull/832), [#844](https://github.com/RedisGears/RedisGears/pull/844) Added IPV6 support
 - [#841](https://github.com/RedisGears/RedisGears/pull/841) Generate artifacts with dependencies included
 
 **Bug fixes:**
+
 - [#810](https://github.com/RedisGears/RedisGears/pull/810) Fix invalid memory access when checking if a trigger is already registered
 
 ## v1.2.5 (July 2022)
@@ -46,9 +48,9 @@ Details:
 
 - Bug fixes:
 
-    - [#792](https://github.com/RedisGears/RedisGears/issues/792), [#798](https://github.com/RedisGears/RedisGears/pull/798) Execution was triggered infinitely when trimming is turned off.
-    - [#791](https://github.com/RedisGears/RedisGears/issues/791), [#796](https://github.com/RedisGears/RedisGears/pull/796) Stop triggering executions during [pause](https://oss.redis.com/redisgears/commands.html#rgpauseregistrations) even on failure.
-    - [#794](https://github.com/RedisGears/RedisGears/pull/794), [#797](https://github.com/RedisGears/RedisGears/pull/797) Use [`PythonInstallationDir`](https://oss.redis.com/redisgears/configuration.html#pythoninstallationdir) configuration to find the virtual environment location on Redis Enterprise. (MOD-1734)
+  - [#792](https://github.com/RedisGears/RedisGears/issues/792), [#798](https://github.com/RedisGears/RedisGears/pull/798) Execution was triggered infinitely when trimming is turned off.
+  - [#791](https://github.com/RedisGears/RedisGears/issues/791), [#796](https://github.com/RedisGears/RedisGears/pull/796) Stop triggering executions during [pause](https://oss.redis.com/redisgears/commands.html#rgpauseregistrations) even on failure.
+  - [#794](https://github.com/RedisGears/RedisGears/pull/794), [#797](https://github.com/RedisGears/RedisGears/pull/797) Use [`PythonInstallationDir`](https://oss.redis.com/redisgears/configuration.html#pythoninstallationdir) configuration to find the virtual environment location on Redis Enterprise. (MOD-1734)
 
 ## v1.2.4 (May 2022)
 
@@ -60,12 +62,12 @@ Details:
 
 - Improvements:
 
-    - [#772](https://github.com/RedisGears/RedisGears/pull/772) Added the ability to upgrade a dependency at runtime with `FORCE_REQUIREMENTS_REINSTALLATION` on `RG.PYEXECUTE`.
-    - [#765](https://github.com/RedisGears/RedisGears/pull/765) Allow deactivating [override Python allocators](https://oss.redis.com/redisgears/configuration.html#overridepythonallocators) for performance improvements.
+  - [#772](https://github.com/RedisGears/RedisGears/pull/772) Added the ability to upgrade a dependency at runtime with `FORCE_REQUIREMENTS_REINSTALLATION` on `RG.PYEXECUTE`.
+  - [#765](https://github.com/RedisGears/RedisGears/pull/765) Allow deactivating [override Python allocators](https://oss.redis.com/redisgears/configuration.html#overridepythonallocators) for performance improvements.
 
 - Bug fixes:
 
-    - [#761](https://github.com/RedisGears/RedisGears/issues/761), [#760](https://github.com/RedisGears/RedisGears/issues/760), [#778](https://github.com/RedisGears/RedisGears/pull/778) [`StreamReader`](https://oss.redis.com/redisgears/readers.html#streamreader) fixes to pause and unregister stream processing.
+  - [#761](https://github.com/RedisGears/RedisGears/issues/761), [#760](https://github.com/RedisGears/RedisGears/issues/760), [#778](https://github.com/RedisGears/RedisGears/pull/778) [`StreamReader`](https://oss.redis.com/redisgears/readers.html#streamreader) fixes to pause and unregister stream processing.
 
 ## v1.2.3 (April 2022)
 
@@ -77,13 +79,13 @@ Details:
 
 - Improvements:
 
-    - [#739](https://github.com/RedisGears/RedisGears/pull/739) Added TLS support
-    - [#734](https://github.com/RedisGears/RedisGears/pull/734) Pause/Unpause registrations
-    - [#741](https://github.com/RedisGears/RedisGears/pull/741) Added build for Python-only artifacts
+  - [#739](https://github.com/RedisGears/RedisGears/pull/739) Added TLS support
+  - [#734](https://github.com/RedisGears/RedisGears/pull/734) Pause/Unpause registrations
+  - [#741](https://github.com/RedisGears/RedisGears/pull/741) Added build for Python-only artifacts
 
 - Bug fixes:
 
-    - [#740](https://github.com/RedisGears/RedisGears/pull/740) Fix -nan value on registration stats
+  - [#740](https://github.com/RedisGears/RedisGears/pull/740) Fix -nan value on registration stats
 
 ## v1.2.2 (February 2022)
 
@@ -154,10 +156,11 @@ Bug fixes (since 1.0.9):
 - [#676](https://github.com/RedisGears/RedisGears/pull/676) Globals dictionary not set correctly after deserialization
 - [#665](https://github.com/RedisGears/RedisGears/issues/665), [#679](https://github.com/RedisGears/RedisGears/pull/679) Allow case-insensitive event type on command reader
 - [#697](https://github.com/RedisGears/RedisGears/pull/697) `hashtag()` function for Redis Enterprise
-- [#688](https://github.com/RedisGears/RedisGears/pull/688), [#545](https://github.com/RedisGears/RedisGears/issues/545) Check `REDISMODULE_CTX_FLAGS_DENY_BLOCKING` flag before blocking the client
+- [#688](https://github.com/RedisGears/RedisGears/pull/688), [#545](https://github.com/RedisGears/RedisGears/issues/545) Check `PHARMAVILLAGEMODULE_CTX_FLAGS_DENY_BLOCKING` flag before blocking the client
 
 {{<note>}}
+
 - This is the first GA version of 1.2. The version inside Redis is 1.2.2 in semantic versioning. Since the version of a module in Redis is numeric, we could not add a GA flag.
 
 - Minimum Redis version: 6.0.0
-{{</note>}}
+  {{</note>}}

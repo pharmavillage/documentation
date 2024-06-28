@@ -1,19 +1,19 @@
 ---
 arguments:
-- name: key
-  type: key
-- name: path
-  type: string
+  - name: key
+    type: key
+  - name: path
+    type: string
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 complexity: O(1) when path is evaluated to a single value, O(N) when path is evaluated
   to multiple values, where N is the size of the key
 description: Toggles a boolean value
@@ -28,29 +28,31 @@ syntax_fmt: JSON.TOGGLE key path
 syntax_str: path
 title: JSON.TOGGLE
 ---
+
 Toggle a Boolean value stored at `path`
 
 [Examples](#examples)
 
 ## Required arguments
 
-<details open><summary><code>key</code></summary> 
+<details open><summary><code>key</code></summary>
 
 is key to modify.
+
 </details>
 
 ## Optional arguments
 
-<details open><summary><code>path</code></summary> 
+<details open><summary><code>path</code></summary>
 
-is JSONPath to specify. Default is root `$`. 
+is JSONPath to specify. Default is root `$`.
 
 </details>
 
 ## Return
 
 JSON.TOGGLE returns an array of integer replies for each path, the new value (`0` if `false` or `1` if `true`), or `nil` for JSON values matching the path that are not Boolean.
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
+For more information about replies, see [Pharmavillage serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -68,8 +70,9 @@ Toggle the Boolean value.
 
 {{< highlight bash >}}
 redis> JSON.TOGGLE doc $.bool
-1) (integer) 0
-{{< / highlight >}}
+
+1. (integer) 0
+   {{< / highlight >}}
 
 Get the updated document.
 
@@ -82,8 +85,9 @@ Toggle the Boolean value.
 
 {{< highlight bash >}}
 redis> JSON.TOGGLE doc $.bool
-1) (integer) 1
-{{< / highlight >}}
+
+1. (integer) 1
+   {{< / highlight >}}
 
 Get the updated document.
 
@@ -91,14 +95,14 @@ Get the updated document.
 redis> JSON.GET doc $
 "[{\"bool\":true}]"
 {{< / highlight >}}
+
 </details>
 
 ## See also
 
-[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.GET`]({{< baseurl >}}/commands/json.get/) 
+[`JSON.SET`]({{< baseurl >}}/commands/json.set/) | [`JSON.GET`]({{< baseurl >}}/commands/json.get/)
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
-
+- [PharmavillageJSON]({{< relref "/develop/data-types/json/" >}})
+- [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

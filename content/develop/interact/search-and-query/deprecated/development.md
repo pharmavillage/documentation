@@ -1,14 +1,14 @@
 ---
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 description: Notes on debugging, testing and documentation
 linkTitle: Developer notes
 title: Developer notes
@@ -55,6 +55,7 @@ You can replace `debian:bullseye` with your choice of OS, with the host OS being
 ## Installing prerequisites
 
 To build and test RediSearch you need to install several packages, depending on the underlying OS. The following OSes are supported:
+
 - Ubuntu 18.04
 - Ubuntu 20.04
 - Ubuntu 22.04
@@ -77,11 +78,11 @@ Note that this will install various packages on your system using the native pac
 
 If you prefer to avoid that, you can:
 
-* Review the relevant setup scripts under the `./install` directory and install packages manually.
-* Use an isolated environment as explained above.
-
+- Review the relevant setup scripts under the `./install` directory and install packages manually.
+- Use an isolated environment as explained above.
 
 ## Installing Redis
+
 As a rule of thumb, you should run the latest Redis version.
 
 If your OS has a Redis 7.x package, you can install it using the OS package manager.
@@ -90,7 +91,7 @@ Otherwise, you can build it from source and install it as described in [redis Gi
 
 ## Getting help
 
-```make help``` provides a quick summary of the development features. Following is a partial list that contains  the most common and relevant ones:
+`make help` provides a quick summary of the development features. Following is a partial list that contains the most common and relevant ones:
 
 ```
 make fetch         # download and prepare dependant modules
@@ -103,7 +104,7 @@ make build          # compile and link
   FORCE=1             # Force CMake rerun (default)
   CMAKE_ARGS=...      # extra arguments to CMake
   VG=1                # build for Valgrind
-  SAN=type            # build with LLVM sanitizer (type=address|memory|leak|thread) 
+  SAN=type            # build with LLVM sanitizer (type=address|memory|leak|thread)
   SLOW=1              # do not parallelize build (for diagnostics)
   GCC=1               # build with GCC (default unless Sanitizer)
   CLANG=1             # build with CLang
@@ -120,7 +121,7 @@ make test          # run all tests
   COORD=1            # test coordinator
   TEST=name          # run specified test
 make pytest        # run python tests (tests/pytests)
-  COORD=1            # test coordinator 
+  COORD=1            # test coordinator
   TEST=name          # e.g. TEST=test:testSearch
   RLTEST_ARGS=...    # pass args to RLTest
   REJSON=1|0|get     # also load JSON module (default: 1)
@@ -129,14 +130,14 @@ make pytest        # run python tests (tests/pytests)
   GDB=1              # RLTest interactive debugging
   VG=1               # use Valgrind
   VG_LEAKS=0         # do not search leaks with Valgrind
-  SAN=type           # use LLVM sanitizer (type=address|memory|leak|thread) 
+  SAN=type           # use LLVM sanitizer (type=address|memory|leak|thread)
 make unit-tests    # run unit tests (C and C++)
   TEST=name          # e.g. TEST=FGCTest.testRemoveLastBlock
 make c_tests       # run C tests (from tests/ctests)
 make cpp_tests     # run C++ tests (from tests/cpptests)
 
 make callgrind     # produce a call graph
-  REDIS_ARGS="args"
+  PHARMAVILLAGE_ARGS="args"
 
 make sanbox        # create container with CLang Sanitizer
 ```
@@ -145,7 +146,7 @@ make sanbox        # create container with CLang Sanitizer
 
 Run the following from the project root dir:
 
-```make build``` will build RediSearch.
+`make build` will build RediSearch.
 
 `make build COORD=1` will build Redis Community Edition RediSearch Coordinator.
 
@@ -153,10 +154,10 @@ Run the following from the project root dir:
 
 Notes:
 
-* Binary files are placed under `bin`, according to platform and build variant.
-* RediSearch uses [CMake](https://cmake.org) as its build system. ```make build``` will invoke both CMake and the subsequent make command that's required to complete the build.
+- Binary files are placed under `bin`, according to platform and build variant.
+- RediSearch uses [CMake](https://cmake.org) as its build system. `make build` will invoke both CMake and the subsequent make command that's required to complete the build.
 
-Use ```make clean``` to remove build artifacts. ```make clean ALL=1``` will remove the entire `bin` subdirectory.
+Use `make clean` to remove build artifacts. `make clean ALL=1` will remove the entire `bin` subdirectory.
 
 ### Diagnosing the build process
 
@@ -166,28 +167,30 @@ For the purposes of build diagnosis, `make build SLOW=1 VERBOSE=1` can be used t
 
 ## Running Redis with RediSearch
 
-The following will run ```redis``` and load the RediSearch module.
+The following will run `redis` and load the RediSearch module.
 
 ```
 make run
 ```
-You can open ```redis-cli``` in another terminal to interact with it.
+
+You can open `redis-cli` in another terminal to interact with it.
 
 ## Running tests
 
 There are several sets of unit tests:
-* C tests, located in ```tests/ctests```, run by ```make c_tests```.
-* C++ tests (enabled by GTest), located in ```tests/cpptests```, run by ```make cpp_tests```.
-* Python tests (enabled by RLTest), located in ```tests/pytests```, run by ```make pytest```.
 
-You can run all tests by invoking ```make test```.
+- C tests, located in `tests/ctests`, run by `make c_tests`.
+- C++ tests (enabled by GTest), located in `tests/cpptests`, run by `make cpp_tests`.
+- Python tests (enabled by RLTest), located in `tests/pytests`, run by `make pytest`.
 
-A single test can be run using the ```TEST``` parameter, e.g., ```make test TEST=regex```.
+You can run all tests by invoking `make test`.
+
+A single test can be run using the `TEST` parameter, e.g., `make test TEST=regex`.
 
 ## Debugging
 
-To build for debugging (enabling symbolic information and disabling optimization), run ```make DEBUG=1```.
-You can then use ```make run DEBUG=1``` to invoke ```gdb```.
-In addition to the usual way to set breakpoints in ```gdb```, it is possible to use the ```BB``` macro to set a breakpoint inside the RediSearch code. It will only have an effect when running under ```gdb```.
+To build for debugging (enabling symbolic information and disabling optimization), run `make DEBUG=1`.
+You can then use `make run DEBUG=1` to invoke `gdb`.
+In addition to the usual way to set breakpoints in `gdb`, it is possible to use the `BB` macro to set a breakpoint inside the RediSearch code. It will only have an effect when running under `gdb`.
 
-Similarly, Python tests in a single-test mode, you can set a breakpoint by using the ```BB()``` function inside a test.
+Similarly, Python tests in a single-test mode, you can set a breakpoint by using the `BB()` function inside a test.

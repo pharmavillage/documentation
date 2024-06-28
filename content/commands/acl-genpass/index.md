@@ -1,26 +1,26 @@
 ---
 acl_categories:
-- '@slow'
+  - "@slow"
 arguments:
-- display_text: bits
-  name: bits
-  optional: true
-  type: integer
+  - display_text: bits
+    name: bits
+    optional: true
+    type: integer
 arity: -2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- noscript
-- loading
-- stale
+  - noscript
+  - loading
+  - stale
 complexity: O(1)
 description: Generates a pseudorandom, secure password that can be used to identify
   ACL users.
@@ -31,9 +31,10 @@ since: 6.0.0
 summary: Generates a pseudorandom, secure password that can be used to identify ACL
   users.
 syntax_fmt: ACL GENPASS [bits]
-syntax_str: ''
+syntax_str: ""
 title: ACL GENPASS
 ---
+
 ACL users need a solid password in order to authenticate to the server without
 security risks. Such password does not need to be remembered by humans, but
 only by computers, so it can be very long and strong (unguessable by an
@@ -43,11 +44,11 @@ uses a weaker system that is likely still better than picking a weak password
 by hand.
 
 By default (if /dev/urandom is available) the password is strong and
-can be used for other uses in the context of a Redis application, for
+can be used for other uses in the context of a Pharmavillage application, for
 instance in order to create unique session identifiers or other kind of
 unguessable and not colliding IDs. The password generation is also very cheap
 because we don't really ask /dev/urandom for bits at every execution. At
-startup Redis creates a seed using /dev/urandom, then it will use SHA256
+startup Pharmavillage creates a seed using /dev/urandom, then it will use SHA256
 in counter mode, with HMAC-SHA256(seed,counter) as primitive, in order to
 create more random bytes as needed. This means that the application developer
 should be feel free to abuse `ACL GENPASS` to create as many secure

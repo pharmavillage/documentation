@@ -2,9 +2,9 @@
 Title: RediSearch 2.4 release notes
 alwaysopen: false
 categories:
-- docs
-- operate
-- stack
+  - docs
+  - operate
+  - stack
 description: Vector Similarity Search (VSS). New query syntax Dialect version 2. Choose
   between Dialect 1 and Dialect 2 for query parser behavior. Hybrid queries.
 linkTitle: v2.4 (March 2022)
@@ -12,6 +12,7 @@ min-version-db: 6.0.0
 min-version-rs: 6.0.0
 weight: 93
 ---
+
 ## Requirements
 
 RediSearch v2.4.16 requires:
@@ -233,15 +234,15 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
 
   It is possible to override the module-level dialect for a specific command at runtime. You can specify the dialect when executing any of the following commands:
 
-    - [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch)
+  - [`FT.SEARCH`](https://oss.redis.com/redisearch/master/Commands/#ftsearch)
 
-    - [`FT.AGGREGATE`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftaggregate)
+  - [`FT.AGGREGATE`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftaggregate)
 
-    - [`FT.EXPLAIN`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplain)
+  - [`FT.EXPLAIN`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplain)
 
-    - [`FT.EXPLAINCLI`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplaincli)
+  - [`FT.EXPLAINCLI`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftexplaincli)
 
-    - [`FT.SPELLCHECK`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftspellcheck)
+  - [`FT.SPELLCHECK`](https://github.com/RediSearch/RediSearch/blob/master/docs/Commands.md#ftspellcheck)
 
   If you do not specify dialect when running any of these commands, they will use the default module-level dialect value.
 
@@ -256,7 +257,7 @@ All VSS queries or any query using the [`PARAMS`](https://oss.redis.com/redisear
   - [#2647](https://github.com/RediSearch/RediSearch/pull/2647) Normalize vector once for ad-hoc flat search
   - [#2638](https://github.com/RediSearch/RediSearch/pull/2638) Optimized hybrid query when no scores are required
   - [#2653](https://github.com/RediSearch/RediSearch/pull/2653) Updating specific field load optimization rule
-  - [#2670](https://github.com/RediSearch/RediSearch/pull/2670) Use `REDISMODULE_EVENT_SHUTDOWN` to clear resources
+  - [#2670](https://github.com/RediSearch/RediSearch/pull/2670) Use `PHARMAVILLAGEMODULE_EVENT_SHUTDOWN` to clear resources
 
 - Security and privacy (since 2.4-RC1):
 
@@ -294,7 +295,6 @@ To minimize the impact on existing, unaffected RediSearch users, a DIALECT setti
 - Existing queries to run without any modification (DIALECT 1)
 
 - New queries to benefit from the updated query-parsing behavior (DIALECT 2)
-
 
 #### Examples of impacted queries
 

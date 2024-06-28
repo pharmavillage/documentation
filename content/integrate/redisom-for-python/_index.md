@@ -2,11 +2,11 @@
 LinkTitle: RedisOM for Python
 Title: RedisOM for Python
 categories:
-- docs
-- integrate
-- oss
-- rs
-- rc
+  - docs
+  - integrate
+  - oss
+  - rs
+  - rc
 description: Learn how to build with Redis Stack and Python
 group: library
 stack: true
@@ -18,11 +18,11 @@ weight: 9
 
 [Redis OM Python](https://github.com/redis/redis-om-python) is a Redis client that provides high-level abstractions for managing document data in Redis. This tutorial shows you how to get up and running with Redis OM Python, Redis Stack, and the [Flask](https://flask.palletsprojects.com/) micro-framework.
 
-We'd love to see what you build with Redis Stack and Redis OM.  [Join the Redis community on Discord](https://discord.gg/redis) to chat with us about all things Redis OM and Redis Stack.  Read more about Redis OM Python [our announcement blog post](https://redis.com/blog/introducing-redis-om-for-python/).
+We'd love to see what you build with Redis Stack and Redis OM. [Join the Redis community on Discord](https://discord.gg/redis) to chat with us about all things Redis OM and Redis Stack. Read more about Redis OM Python [our announcement blog post](https://redis.com/blog/introducing-redis-om-for-python/).
 
 ## Overview
 
-This application, an API built with Flask and a simple domain model, demonstrates common data manipulation patterns using Redis OM. 
+This application, an API built with Flask and a simple domain model, demonstrates common data manipulation patterns using Redis OM.
 
 Our entity is a Person, with the following JSON representation:
 
@@ -41,14 +41,11 @@ Our entity is a Person, with the following JSON representation:
     "country": "A string, country that they live in."
   },
   "personal_statement": "A string, free text personal statement",
-  "skills": [
-    "A string: a skill the person has",
-    "A string: another still that the person has"
-  ]
+  "skills": ["A string: a skill the person has", "A string: another still that the person has"]
 }
 ```
 
-We'll let Redis OM handle generation of unique IDs, which it does using [ULIDs](https://github.com/ulid/spec).  Redis OM will also handle creation of unique Redis key names for us, as well as saving and retrieving entities from JSON documents stored in a Redis Stack database.
+We'll let Redis OM handle generation of unique IDs, which it does using [ULIDs](https://github.com/ulid/spec). Redis OM will also handle creation of unique Redis key names for us, as well as saving and retrieving entities from JSON documents stored in a Redis Stack database.
 
 ## Getting Started
 
@@ -56,11 +53,11 @@ We'll let Redis OM handle generation of unique IDs, which it does using [ULIDs](
 
 To run this application you'll need:
 
-* [git](https://git-scm.com/download) - to clone the repo to your machine. 
-* [Python 3.9 or higher](https://www.python.org/downloads/).
-* A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/interact/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
-* [curl](https://curl.se/), or [Postman](https://www.postman.com/) - to send HTTP requests to the application.  We'll provide examples using curl in this document.
-* Optional: [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis.  When downloading Redis Insight, be sure to select version 2.x or use the version that comes with Redis Stack.
+- [git](https://git-scm.com/download) - to clone the repo to your machine.
+- [Python 3.9 or higher](https://www.python.org/downloads/).
+- A [Redis Stack](https://redis.io) database, or Redis with the [Search and Query]({{< relref "/develop/interact/search-and-query/" >}}) and [JSON]({{< relref "/develop/data-types/json/" >}}) features installed. We've provided a `docker-compose.yml` for this. You can also [sign up for a free 30Mb database with Redis Cloud](https://redis.com/try-free/?utm_source=redisio&utm_medium=referral&utm_campaign=2023-09-try_free&utm_content=cu-redis_cloud_users) - be sure to check the Redis Stack option when creating your cloud database.
+- [curl](https://curl.se/), or [Postman](https://www.postman.com/) - to send HTTP requests to the application. We'll provide examples using curl in this document.
+- Optional: [Redis Insight](https://redis.com/redis-enterprise/redis-insight/), a free data visualization and database management tool for Redis. When downloading Redis Insight, be sure to select version 2.x or use the version that comes with Redis Stack.
 
 ### Get the Source Code
 
@@ -73,26 +70,26 @@ $ cd redis-om-python-flask-skeleton-app
 
 ### Start a Redis Stack Database, or Configure your Redis Cloud Credentials
 
-Next, we'll get a Redis Stack database up and running.  If you're using Docker:
+Next, we'll get a Redis Stack database up and running. If you're using Docker:
 
 ```bash
 $ docker-compose up -d
 Creating network "redis-om-python-flask-skeleton-app_default" with the default driver
-Creating redis_om_python_flask_starter ... done 
+Creating redis_om_python_flask_starter ... done
 ```
 
-If you're using Redis Cloud, you'll need the hostname, port number, and password for your database.  Use these to set the `REDIS_OM_URL` environment variable like this:
+If you're using Redis Cloud, you'll need the hostname, port number, and password for your database. Use these to set the `PHARMAVILLAGE_OM_URL` environment variable like this:
 
 ```bash
-$ export REDIS_OM_URL=redis://default:<password>@<host>:<port>
+$ export PHARMAVILLAGE_OM_URL=redis://default:<password>@<host>:<port>
 ```
 
 (This step is not required when working with Docker as the Docker container runs Redis on `localhost` port `6379` with no password, which is the default connection that Redis OM uses.)
 
-For example if your Redis Cloud database is at port `9139` on host `enterprise.redis.com` and your password is `5uper53cret` then you'd set `REDIS_OM_URL` as follows:
+For example if your Redis Cloud database is at port `9139` on host `enterprise.redis.com` and your password is `5uper53cret` then you'd set `PHARMAVILLAGE_OM_URL` as follows:
 
 ```bash
-$ export REDIS_OM_URL=redis://default:5uper53cret@enterprise.redis.com:9139
+$ export PHARMAVILLAGE_OM_URL=redis://default:5uper53cret@enterprise.redis.com:9139
 ```
 
 ### Create a Python Virtual Environment and Install the Dependencies
@@ -132,7 +129,7 @@ You're now up and running, and ready to perform CRUD operations on data with Red
 
 ### Load the Sample Data
 
-We've provided a small amount of sample data (it's in `data/people.json`.  The Python script `dataloader.py` loads each person into Redis by posting the data to the application's create a new person endpoint.  Run it like this:
+We've provided a small amount of sample data (it's in `data/people.json`. The Python script `dataloader.py` loads each person into Redis by posting the data to the application's create a new person endpoint. Run it like this:
 
 ```bash
 $ python dataloader.py
@@ -143,79 +140,79 @@ Created person Noor Vasan with ID 01FX8RMR82D091TC37B45RCWY3
 Created person Dan Harris with ID 01FX8RMR8545RWW4DYCE5MSZA1
 ```
 
-Make sure to take a copy of the output of the data loader, as your IDs will differ from those used in the tutorial.  To follow along, substitute your IDs for the ones shown above.  e.g. whenever we are working with Kareem Khan, change `01FX8RMR7T60ANQTS4P9NKPKX8` for the ID that your data loader assigned to Kareem in your Redis database.
+Make sure to take a copy of the output of the data loader, as your IDs will differ from those used in the tutorial. To follow along, substitute your IDs for the ones shown above. e.g. whenever we are working with Kareem Khan, change `01FX8RMR7T60ANQTS4P9NKPKX8` for the ID that your data loader assigned to Kareem in your Redis database.
 
 ### Problems?
 
-If the Flask server fails to start, take a look at its output.  If you see log entries similar to this:
+If the Flask server fails to start, take a look at its output. If you see log entries similar to this:
 
 ```py
 raise ConnectionError(self._error_message(e))
 redis.exceptions.ConnectionError: Error 61 connecting to localhost:6379. Connection refused.
 ```
 
-then you need to start the Redis Docker container if using Docker, or set the `REDIS_OM_URL` environment variable if using Redis Cloud.
+then you need to start the Redis Docker container if using Docker, or set the `PHARMAVILLAGE_OM_URL` environment variable if using Redis Cloud.
 
-If you've set the `REDIS_OM_URL` environment variable, and the code errors with something like this on startup:
+If you've set the `PHARMAVILLAGE_OM_URL` environment variable, and the code errors with something like this on startup:
 
 ```py
 raise ConnectionError(self._error_message(e))
 redis.exceptions.ConnectionError: Error 8 connecting to enterprise.redis.com:9139. nodename nor servname provided, or not known.
 ```
 
-then you'll need to check that you used the correct hostname, port, password and format when setting `REDIS_OM_URL`.
+then you'll need to check that you used the correct hostname, port, password and format when setting `PHARMAVILLAGE_OM_URL`.
 
 If the data loader fails to post the sample data into the application, make sure that the Flask application is running **before** running the data loader.
 
 ## Create, Read, Update and Delete Data
 
-Let's create and manipulate some instances of our data model in Redis.  Here we'll look at how to call the Flask API with curl (you could also use Postman), how the code works, and how the data's stored in Redis.
+Let's create and manipulate some instances of our data model in Redis. Here we'll look at how to call the Flask API with curl (you could also use Postman), how the code works, and how the data's stored in Redis.
 
 ### Building a Person Model with Redis OM
 
-Redis OM allows us to model entities using Python classes, and the [Pydantic](https://pypi.org/project/pydantic/) framework.  Our person model is contained in the file `person.py`.  Here's some notes about how it works:
+Redis OM allows us to model entities using Python classes, and the [Pydantic](https://pypi.org/project/pydantic/) framework. Our person model is contained in the file `person.py`. Here's some notes about how it works:
 
-* We declare a class `Person` which extends a Redis OM class `JsonModel`.  This tells Redis OM that we want to store these entities in Redis as JSON documents.
-* We then declare each field in our model, specifying the data type and whether or not we want to index on that field.  For example, here's the `age` field, which we've declared as a positive integer that we want to index on:
+- We declare a class `Person` which extends a Redis OM class `JsonModel`. This tells Redis OM that we want to store these entities in Redis as JSON documents.
+- We then declare each field in our model, specifying the data type and whether or not we want to index on that field. For example, here's the `age` field, which we've declared as a positive integer that we want to index on:
 
 ```py
 age: PositiveInt = Field(index=True)
 ```
 
-* The `skills` field is a list of strings, declared thus:
+- The `skills` field is a list of strings, declared thus:
 
 ```py
 skills: List[str] = Field(index=True)
 ```
 
-* For the `personal_statement` field, we don't want to index on the field's value, as it's a free text sentence rather than a single word or digit. For this, we'll tell Redis OM that we want to be able to perform full text searches on the values:
+- For the `personal_statement` field, we don't want to index on the field's value, as it's a free text sentence rather than a single word or digit. For this, we'll tell Redis OM that we want to be able to perform full text searches on the values:
 
 ```py
 personal_statement: str = Field(index=True, full_text_search=True)
 ```
 
-* `address` works differently from the other fields.  Note that in our JSON representation of the model, address is an object rather than a string or numerical field.  With Redis OM, this is modeled as a second class, which extends the Redis OM `EmbeddedJsonModel` class:
+- `address` works differently from the other fields. Note that in our JSON representation of the model, address is an object rather than a string or numerical field. With Redis OM, this is modeled as a second class, which extends the Redis OM `EmbeddedJsonModel` class:
 
 ```py
 class Address(EmbeddedJsonModel):
     # field definitions...
 ```
 
-* Fields in an `EmbeddedJsonModel` are defined in the same way, so our class contains a field definition for each data item in the address.
+- Fields in an `EmbeddedJsonModel` are defined in the same way, so our class contains a field definition for each data item in the address.
 
-* Not every field in our JSON is present in every address, Redis OM allows us to declare a field as optional so long as we don't index it:
+- Not every field in our JSON is present in every address, Redis OM allows us to declare a field as optional so long as we don't index it:
 
 ```py
 unit: Optional[str] = Field(index=False)
 ```
 
-* We can also set a default value for a field... let's say country should be "United Kingdom" unless otherwise specified:
+- We can also set a default value for a field... let's say country should be "United Kingdom" unless otherwise specified:
 
 ```py
 country: str = Field(index=True, default="United Kingdom")
 ```
 
-* Finally, to add the embedded address object to our Person model, we declare a field of type `Address` in the Person class:
+- Finally, to add the embedded address object to our Person model, we declare a field of type `Address` in the Person class:
 
 ```py
 address: Address
@@ -223,7 +220,7 @@ address: Address
 
 ### Adding New People
 
-The function `create_person` in `app.py` handles the creation of a new person in Redis.  It expects a JSON object that adheres to our Person model's schema.  The code to then create a new Person object with that data and save it in Redis is simple:
+The function `create_person` in `app.py` handles the creation of a new person in Redis. It expects a JSON object that adheres to our Person model's schema. The code to then create a new Person object with that data and save it in Redis is simple:
 
 ```py
   new_person = Person(**request.json)
@@ -231,7 +228,7 @@ The function `create_person` in `app.py` handles the creation of a new person in
   return new_person.pk
 ```
 
-When a new Person instance is created, Redis OM assigns it a unique ULID primary key, which we can access as `.pk`.  We return that to the caller, so that they know the ID of the object they just created.
+When a new Person instance is created, Redis OM assigns it a unique ULID primary key, which we can access as `.pk`. We return that to the caller, so that they know the ID of the object they just created.
 
 Persisting the object to Redis is then simply a matter of calling `.save()` on it.
 
@@ -266,7 +263,7 @@ Running the above curl command will return the unique ULID ID assigned to the ne
 
 ### Examining the data in Redis
 
-Let's take a look at what we just saved in Redis.  Using Redis Insight or redis-cli, connect to the database and look at the value stored at key `:person.Person:01FX8SSSDN7PT9T3N0JZZA758G`.  This is stored as a JSON document in Redis, so if using redis-cli you'll need the following command:
+Let's take a look at what we just saved in Redis. Using Redis Insight or redis-cli, connect to the database and look at the value stored at key `:person.Person:01FX8SSSDN7PT9T3N0JZZA758G`. This is stored as a JSON document in Redis, so if using redis-cli you'll need the following command:
 
 ```bash
 $ redis-cli
@@ -277,7 +274,7 @@ If you're using Redis Insight, the browser will render the key value for you whe
 
 ![Data in Redis Insight](./images/python_insight_explore_person.png)
 
-When storing data as JSON in Redis, we can update and retrieve the whole document, or just parts of it.  For example, to retrieve only the person's address and first skill, use the following command (Redis Insight users should use the built in redis-cli for this):
+When storing data as JSON in Redis, we can update and retrieve the whole document, or just parts of it. For example, to retrieve only the person's address and first skill, use the following command (Redis Insight users should use the built in redis-cli for this):
 
 ```bash
 $ redis-cli
@@ -289,7 +286,7 @@ For more information on the JSON Path syntax used to query JSON documents in Red
 
 ### Find a Person by ID
 
-If we know a person's ID, we can retrieve their data.  The function `find_by_id` in `app.py` receives an ID as its parameter, and asks Redis OM to retrieve and populate a Person object using the ID and the Person `.get` class method:
+If we know a person's ID, we can retrieve their data. The function `find_by_id` in `app.py` receives an ID as its parameter, and asks Redis OM to retrieve and populate a Person object using the ID and the Person `.get` class method:
 
 ```py
   try:
@@ -328,19 +325,15 @@ The server responds with a JSON object containing the user's data:
   "last_name": "Peel",
   "personal_statement": "Music is my life, I love gigging and playing with my band.",
   "pk": "01FX8SSSDN7PT9T3N0JZZA758G",
-  "skills": [
-    "synths",
-    "vocals",
-    "guitar"
-  ]
+  "skills": ["synths", "vocals", "guitar"]
 }
 ```
 
 ### Find People with Matching First and Last Name
 
-Let's find all the people who have a given first and last name...  This is handled by the function `find_by_name` in `app.py`.
+Let's find all the people who have a given first and last name... This is handled by the function `find_by_name` in `app.py`.
 
-Here, we're using Person's `find` class method that's provided by Redis OM.  We pass it a search query, specifying that we want to find people whose `first_name` field contains the value of the `first_name` parameter passed to `find_by_name` AND whose `last_name` field contains the value of the `last_name` parameter:
+Here, we're using Person's `find` class method that's provided by Redis OM. We pass it a search query, specifying that we want to find people whose `first_name` field contains the value of the `first_name` parameter passed to `find_by_name` AND whose `last_name` field contains the value of the `last_name` parameter:
 
 ```py
   people = Person.find(
@@ -368,7 +361,7 @@ The server responds with an object containing `results`, an array of matches:
       "address": {
         "city": "Sheffield",
         "country": "United Kingdom",
-        "pk": "01FX8RMR7THMGA84RH8ZRQRRP9", 
+        "pk": "01FX8RMR7THMGA84RH8ZRQRRP9",
         "postal_code": "S1 5RE",
         "state": "South Yorkshire",
         "street_name": "The Beltway",
@@ -378,13 +371,9 @@ The server responds with an object containing `results`, an array of matches:
       "age": 27,
       "first_name": "Kareem",
       "last_name": "Khan",
-      "personal_statement":"I'm Kareem, a multi-instrumentalist and singer looking to join a new rock band.",
-      "pk":"01FX8RMR7T60ANQTS4P9NKPKX8",
-      "skills": [
-        "drums",
-        "guitar",
-        "synths"
-      ]
+      "personal_statement": "I'm Kareem, a multi-instrumentalist and singer looking to join a new rock band.",
+      "pk": "01FX8RMR7T60ANQTS4P9NKPKX8",
+      "skills": ["drums", "guitar", "synths"]
     }
   ]
 }
@@ -432,11 +421,7 @@ This returns a `results` object containing an array of matches:
       "last_name": "McDonald",
       "personal_statement": "My name is Robert, I love meeting new people and enjoy music, coding and walking my dog.",
       "pk": "01FX8RMR7NRS45PBT3XP9KNAZH",
-      "skills": [
-        "guitar",
-        "piano",
-        "trombone"
-      ]
+      "skills": ["guitar", "piano", "trombone"]
     },
     {
       "address": {
@@ -454,11 +439,7 @@ This returns a `results` object containing an array of matches:
       "last_name": "Peel",
       "personal_statement": "Music is my life, I love gigging and playing with my band.",
       "pk": "01FX8SSSDN7PT9T3N0JZZA758G",
-      "skills": [
-        "synths",
-        "vocals",
-        "guitar"
-      ]
+      "skills": ["synths", "vocals", "guitar"]
     },
     {
       "address": {
@@ -476,10 +457,7 @@ This returns a `results` object containing an array of matches:
       "last_name": "Vasan",
       "personal_statement": "I sing and play the guitar, I enjoy touring and meeting new people on the road.",
       "pk": "01FX8RMR82D091TC37B45RCWY3",
-      "skills": [
-        "vocals",
-        "guitar"
-      ]
+      "skills": ["vocals", "guitar"]
     },
     {
       "address": {
@@ -497,11 +475,7 @@ This returns a `results` object containing an array of matches:
       "last_name": "Ortega",
       "personal_statement": "I'm in a really cool band that plays a lot of cover songs.  I'm the drummer!",
       "pk": "01FX8RMR7YB283BPZ88HAG066P",
-      "skills": [
-        "clarinet",
-        "oboe",
-        "drums"
-      ]
+      "skills": ["clarinet", "oboe", "drums"]
     }
   ]
 }
@@ -509,9 +483,9 @@ This returns a `results` object containing an array of matches:
 
 ### Find People in a Given City with a Specific Skill
 
-Now, we'll try a slightly different sort of query.  We want to find all of the people that live in a given city AND who also have a certain skill.  This requires a search over both the `city` field which is a string, and the `skills` field, which is an array of strings.
+Now, we'll try a slightly different sort of query. We want to find all of the people that live in a given city AND who also have a certain skill. This requires a search over both the `city` field which is a string, and the `skills` field, which is an array of strings.
 
-Essentially we want to say "Find me all the people whose city is `city` AND whose skills array CONTAINS `desired_skill`", where `city` and `desired_skill` are the parameters to the `find_matching_skill` function in `app.py`.  Here's the code for that:
+Essentially we want to say "Find me all the people whose city is `city` AND whose skills array CONTAINS `desired_skill`", where `city` and `desired_skill` are the parameters to the `find_matching_skill` function in `app.py`. Here's the code for that:
 
 ```py
   people = Person.find(
@@ -551,11 +525,7 @@ The server returns a `results` array containing matching people:
       "last_name": "Khan",
       "personal_statement": "I'm Kareem, a multi-instrumentalist and singer looking to join a new rock band.",
       "pk": "01FX8RMR7T60ANQTS4P9NKPKX8",
-      "skills": [
-        "drums",
-        "guitar",
-        "synths"
-      ]
+      "skills": ["drums", "guitar", "synths"]
     },
     {
       "address": {
@@ -573,11 +543,7 @@ The server returns a `results` array containing matching people:
       "last_name": "McDonald",
       "personal_statement": "My name is Robert, I love meeting new people and enjoy music, coding and walking my dog.",
       "pk": "01FX8RMR7NRS45PBT3XP9KNAZH",
-      "skills": [
-        "guitar",
-        "piano",
-        "trombone"
-      ]
+      "skills": ["guitar", "piano", "trombone"]
     }
   ]
 }
@@ -585,7 +551,7 @@ The server returns a `results` array containing matching people:
 
 ### Find People using Full Text Search on their Personal Statements
 
-Each person has a `personal_statement` field, which is a free text string containing a couple of sentences about them.  We chose to index this in a way that makes it full text searchable, so let's see how to use this now.  The code for this is in the function `find_matching_statements` in `app.py`.
+Each person has a `personal_statement` field, which is a free text string containing a couple of sentences about them. We chose to index this in a way that makes it full text searchable, so let's see how to use this now. The code for this is in the function `find_matching_statements` in `app.py`.
 
 To search for people who have the value of the parameter `search_term` in their `personal_statement` field, we use the `%` operator:
 
@@ -604,7 +570,7 @@ The server responds with a `results` array of matching people:
 ```json
 {
   "results": [
-    { 
+    {
       "address": {
         "city": "San Diego",
         "country": "United States",
@@ -620,12 +586,9 @@ The server responds with a `results` array of matching people:
       "last_name": "Ortega",
       "personal_statement": "I'm in a really cool band that plays a lot of cover songs.  I'm the drummer!",
       "pk": "01FX8RMR7YB283BPZ88HAG066P",
-      "skills": [
-        "clarinet",
-        "oboe",
-        "drums"
-      ]
-    }, {
+      "skills": ["clarinet", "oboe", "drums"]
+    },
+    {
       "address": {
         "city": "Nottingham",
         "country": "United Kingdom",
@@ -641,10 +604,7 @@ The server responds with a `results` array of matching people:
       "last_name": "Vasan",
       "personal_statement": "I sing and play the guitar, I enjoy touring and meeting new people on the road.",
       "pk": "01FX8RMR82D091TC37B45RCWY3",
-      "skills": [
-        "vocals",
-        "guitar"
-      ]
+      "skills": ["vocals", "guitar"]
     },
     {
       "address": {
@@ -662,11 +622,7 @@ The server responds with a `results` array of matching people:
       "last_name": "Peel",
       "personal_statement": "Music is my life, I love gigging and playing with my band.",
       "pk": "01FX8SSSDN7PT9T3N0JZZA758G",
-      "skills": [
-        "synths",
-        "vocals",
-        "guitar"
-      ]
+      "skills": ["synths", "vocals", "guitar"]
     }
   ]
 }
@@ -676,9 +632,9 @@ Note that we get results including matches for "play", "plays" and "playing".
 
 ### Update a Person's Age
 
-As well as retrieving information from Redis, we'll also want to update a Person's data from time to time.  Let's see how to do that with Redis OM for Python.
+As well as retrieving information from Redis, we'll also want to update a Person's data from time to time. Let's see how to do that with Redis OM for Python.
 
-The function `update_age` in `app.py` accepts two parameters: `id` and `new_age`.  Using these, we first retrieve the person's data from Redis and create a new object with it:
+The function `update_age` in `app.py` accepts two parameters: `id` and `new_age`. Using these, we first retrieve the person's data from Redis and create a new object with it:
 
 ```py
   try:
@@ -721,9 +677,9 @@ The server responds with an `ok` response regardless of whether the ID provided 
 
 ### Setting an Expiry Time for a Person
 
-This is an example of how to run arbitrary Redis commands against instances of a model saved in Redis.  Let's see how we can set the time to live (TTL) on a person, so that Redis will expire the JSON document after a configurable number of seconds have passed.
+This is an example of how to run arbitrary Redis commands against instances of a model saved in Redis. Let's see how we can set the time to live (TTL) on a person, so that Redis will expire the JSON document after a configurable number of seconds have passed.
 
-The function `expire_by_id` in `app.py` handles this as follows.  It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after.  This requires us to run the Redis [`EXPIRE`]({{< relref "/commands/expire" >}}) command against the person's key.  To do this, we need to access the Redis connection from the `Person` model like so:
+The function `expire_by_id` in `app.py` handles this as follows. It takes two parameters: `id` - the ID of a person to expire, and `seconds` - the number of seconds in the future to expire the person after. This requires us to run the Redis [`EXPIRE`]({{< relref "/commands/expire" >}}) command against the person's key. To do this, we need to access the Redis connection from the `Person` model like so:
 
 ```py
   person_to_expire = Person.get(id)
@@ -745,7 +701,7 @@ Using `redis-cli`, you can check that the person now has a TTL set with the Redi
 
 This shows that Redis will expire the key 584 seconds from now.
 
-You can use the `.db()` function on your model class to get at the underlying redis-py connection whenever you want to run lower level Redis commands.  For more details, see the [redis-py documentation](https://redis-py.readthedocs.io/en/stable/).
+You can use the `.db()` function on your model class to get at the underlying redis-py connection whenever you want to run lower level Redis commands. For more details, see the [redis-py documentation](https://redis-py.readthedocs.io/en/stable/).
 
 ## Shutting Down Redis (Docker)
 

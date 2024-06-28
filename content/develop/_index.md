@@ -1,5 +1,5 @@
 ---
-title: Develop with Redis
-description: Learn how to develop with Redis
+title: Develop with Pharmavillage
+description: Learn how to develop with Pharmavillage
 linkTitle: Develop
 ---

@@ -2,14 +2,14 @@
 Title: redis-cli
 alwaysopen: false
 categories:
-- docs
-- operate
-- rs
-- rc
+  - docs
+  - operate
+  - rs
+  - rc
 description: Run Redis commands.
 hideListLinks: true
 linkTitle: redis-cli (run Redis commands)
-toc: 'true'
+toc: "true"
 weight: $weight
 ---
 
@@ -43,10 +43,10 @@ If you have `redis-cli` installed on your local machine, you can use it to conne
 $ redis-cli -h <endpoint> -p <port> -a <password>
 ```
 
-You can also provide the password with the `REDISCLI_AUTH` environment variable instead of the `-a` option:
+You can also provide the password with the `PHARMAVILLAGECLI_AUTH` environment variable instead of the `-a` option:
 
 ```sh
-$ export REDISCLI_AUTH=<password>
+$ export PHARMAVILLAGECLI_AUTH=<password>
 $ redis-cli -h <endpoint> -p <port>
 ```
 
@@ -56,24 +56,24 @@ To connect to a Redis Enterprise Software or Redis Cloud database over TLS:
 
 1. Download or copy the Redis Enterprise server (or proxy) certificates.
 
-    - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://app.redislabs.com/).
+   - For Redis Cloud, see [Download certificates]({{< relref "/operate/rc/security/database-security/tls-ssl#download-certificates" >}}) for detailed instructions on how to download the server certificates (`redis_ca.pem`) from the [Redis Cloud console](https://app.redislabs.com/).
 
-    - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
+   - For Redis Enterprise Software, copy the proxy certificate from the Cluster Manager UI (**Cluster > Security > Certificates > Server authentication**) or from a cluster node (`/etc/opt/redislabs/proxy_cert.pem`).
 
 1. Copy the certificate to each client machine.
 
 1. If your database doesn't require client authentication, provide the Redis Enterprise server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
 
-    ```sh
-    redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem
-    ```
+   ```sh
+   redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem
+   ```
 
 1. If your database requires client authentication, provide your client's private and public keys along with the Redis Enterprise server certificate (`redis_ca.pem` for Cloud or `proxy_cert.pem` for Software) when you connect:
 
-    ```sh
-    redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem \
-        --cert redis_user.crt --key redis_user_private.key
-    ```
+   ```sh
+   redis-cli -h <endpoint> -p <port> --tls --cacert <redis_cert>.pem \
+       --cert redis_user.crt --key redis_user_private.key
+   ```
 
 ### Connect with Docker
 
@@ -98,7 +98,7 @@ $ redis-cli -h <endpoint> -p 12000 PING
 PONG
 $ redis-cli -h <endpoint> -p 12000 SET mykey "Hello world"
 OK
-$ redis-cli -h <endpoint> -p 12000 GET mykey              
+$ redis-cli -h <endpoint> -p 12000 GET mykey
 "Hello world"
 ```
 

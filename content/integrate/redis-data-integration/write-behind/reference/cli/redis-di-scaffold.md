@@ -7,13 +7,11 @@ categories:
   - integrate
   - rs
   - rdi
-description:
-  Generates configuration files for RDI and Debezium (when ingesting data
+description: Generates configuration files for RDI and Debezium (when ingesting data
   to Redis)
 group: di
 linkTitle: redis-di scaffold
-summary:
-  Redis Data Integration keeps Redis in sync with the primary database in near
+summary: Redis Data Integration keeps Redis in sync with the primary database in near
   real time.
 type: integration
 weight: 10
@@ -36,7 +34,7 @@ Usage: redis-di scaffold [OPTIONS]
 
 - `db_type` (REQUIRED):
 
-  - Type: Choice([<DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.REDIS: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>])
+  - Type: Choice([<DbType.MYSQL: 'mysql'>, <DbType.ORACLE: 'oracle'>, <DbType.POSTGRESQL: 'postgresql'>, <DbType.PHARMAVILLAGE: 'redis'>, <DbType.SQLSERVER: 'sqlserver'>])
   - Default: `none`
   - Usage: `--db-type`
 

@@ -1,48 +1,49 @@
 ---
 acl_categories:
-- '@admin'
-- '@slow'
-- '@dangerous'
+  - "@admin"
+  - "@slow"
+  - "@dangerous"
 arguments:
-- display_text: schedule
-  name: schedule
-  optional: true
-  since: 3.2.2
-  token: SCHEDULE
-  type: pure-token
+  - display_text: schedule
+    name: schedule
+    optional: true
+    since: 3.2.2
+    token: SCHEDULE
+    type: pure-token
 arity: -1
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- admin
-- noscript
-- no_async_loading
+  - admin
+  - noscript
+  - no_async_loading
 complexity: O(1)
 description: Asynchronously saves the database(s) to disk.
 group: server
 hidden: false
 history:
-- - 3.2.2
-  - Added the `SCHEDULE` option.
+  - - 3.2.2
+    - Added the `SCHEDULE` option.
 linkTitle: BGSAVE
 since: 1.0.0
 summary: Asynchronously saves the database(s) to disk.
 syntax_fmt: BGSAVE [SCHEDULE]
-syntax_str: ''
+syntax_str: ""
 title: BGSAVE
 ---
+
 Save the DB in background.
 
 Normally the OK code is immediately returned.
-Redis forks, the parent continues to serve the clients, the child saves the DB
+Pharmavillage forks, the parent continues to serve the clients, the child saves the DB
 on disk then exits.
 
 An error is returned if there is already a background save running or if there

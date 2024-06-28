@@ -1,12 +1,12 @@
 ---
 categories:
-- docs
-- operate
-- stack
-- oss
-description: 'Install Redis on Linux, macOS, and Windows
+  - docs
+  - operate
+  - stack
+  - oss
+description: "Install Redis on Linux, macOS, and Windows
 
-  '
+  "
 linkTitle: Install Redis
 title: Install Redis
 weight: 1
@@ -20,11 +20,11 @@ While you can install Redis on any of the platforms listed below, you might also
 
 How you install Redis depends on your operating system and whether you'd like to install it bundled with Redis Stack and Redis UI. See the guide below that best fits your needs:
 
-* [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
-* [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
-* [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
-* [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
-* [Install Redis with Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
+- [Install Redis from Source]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-from-source" >}})
+- [Install Redis on Linux]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-linux" >}})
+- [Install Redis on macOS]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-mac-os" >}})
+- [Install Redis on Windows]({{< relref "/operate/oss_and_stack/install/install-redis/install-redis-on-windows" >}})
+- [Install Redis with Redis Stack]({{< relref "/operate/oss_and_stack/install/install-stack/" >}})
 
 Refer to [Redis Administration]({{< relref "/operate/oss_and_stack/management/admin" >}}) for detailed setup tips.
 
@@ -68,7 +68,6 @@ Of course using Redis just from the command line interface is not enough as the 
 
 You'll find a [full list of supported clients for different languages in this page]({{< relref "develop/connect/clients/" >}}).
 
-
 ## Redis persistence
 
 You can learn [how Redis persistence works on this page]({{< relref "/operate/oss_and_stack/management/persistence" >}}). It is important to understand that, if you start Redis with the default configuration, Redis will spontaneously save the dataset only from time to time. For example, after at least five minutes if you have at least 100 changes in your data. If you want your database to persist and be reloaded after a restart make sure to call the **SAVE** command manually every time you want to force a data set snapshot. Alternatively, you can save the data on disk before quitting by using the **SHUTDOWN** command:
@@ -83,10 +82,10 @@ This way, Redis will save the data on disk before quitting. Reading the [persist
 
 Running Redis from the command line is fine just to hack a bit or for development. However, at some point you'll have some actual application to run on a real server. For this kind of usage you have two different choices:
 
-* Run Redis using screen.
-* Install Redis in your Linux box in a proper way using an init script, so that after a restart everything will start again properly.
+- Run Redis using screen.
+- Install Redis in your Linux box in a proper way using an init script, so that after a restart everything will start again properly.
 
-A proper install using an init script is strongly recommended. 
+A proper install using an init script is strongly recommended.
 
 {{% alert title="Note" color="warning" %}}
 The available packages for supported Linux distributions already include the capability of starting the Redis server from `/etc/init`.
@@ -100,52 +99,52 @@ The following instructions can be used to perform a proper installation using th
 
 If you have not yet run `make install` after building the Redis source, you will need to do so before continuing. By default, `make install` will copy the `redis-server` and `redis-cli` binaries to `/usr/local/bin`.
 
-* Create a directory in which to store your Redis config files and your data:
+- Create a directory in which to store your Redis config files and your data:
 
-    ```
-    sudo mkdir /etc/redis
-    sudo mkdir /var/redis
-    ```
+  ```
+  sudo mkdir /etc/redis
+  sudo mkdir /var/redis
+  ```
 
-* Copy the init script that you'll find in the Redis distribution under the **utils** directory into `/etc/init.d`. We suggest calling it with the name of the port where you are running this instance of Redis. Make sure the resulting file has `0755` permissions.
-    
-    ```
-    sudo cp utils/redis_init_script /etc/init.d/redis_6379
-    ```
+- Copy the init script that you'll find in the Redis distribution under the **utils** directory into `/etc/init.d`. We suggest calling it with the name of the port where you are running this instance of Redis. Make sure the resulting file has `0755` permissions.
 
-* Edit the init script.
+  ```
+  sudo cp utils/redis_init_script /etc/init.d/redis_6379
+  ```
 
-    ```
-    sudo vi /etc/init.d/redis_6379
-    ```
+- Edit the init script.
 
-Make sure to set the **REDISPORT** variable to the port you are using.
+  ```
+  sudo vi /etc/init.d/redis_6379
+  ```
+
+Make sure to set the **PHARMAVILLAGEPORT** variable to the port you are using.
 Both the pid file path and the configuration file name depend on the port number.
 
-* Copy the template configuration file you'll find in the root directory of the Redis distribution into `/etc/redis/` using the port number as the name, for instance:
+- Copy the template configuration file you'll find in the root directory of the Redis distribution into `/etc/redis/` using the port number as the name, for instance:
 
-    ```
-    sudo cp redis.conf /etc/redis/6379.conf
-    ```
+  ```
+  sudo cp redis.conf /etc/redis/6379.conf
+  ```
 
-* Create a directory inside `/var/redis` that will work as both data and working directory for this Redis instance:
+- Create a directory inside `/var/redis` that will work as both data and working directory for this Redis instance:
 
-    ```
-    sudo mkdir /var/redis/6379
-    ```
+  ```
+  sudo mkdir /var/redis/6379
+  ```
 
-* Edit the configuration file, making sure to perform the following changes:
-    * Set **daemonize** to yes (by default it is set to no).
-    * Set the **pidfile** to `/var/run/redis_6379.pid`, modifying the port as necessary.
-    * Change the **port** accordingly. In our example it is not needed as the default port is already `6379`.
-    * Set your preferred **loglevel**.
-    * Set the **logfile** to `/var/log/redis_6379.log`.
-    * Set the **dir** to `/var/redis/6379` (very important step!).
-* Finally, add the new Redis init script to all the default runlevels using the following command:
+- Edit the configuration file, making sure to perform the following changes:
+  - Set **daemonize** to yes (by default it is set to no).
+  - Set the **pidfile** to `/var/run/redis_6379.pid`, modifying the port as necessary.
+  - Change the **port** accordingly. In our example it is not needed as the default port is already `6379`.
+  - Set your preferred **loglevel**.
+  - Set the **logfile** to `/var/log/redis_6379.log`.
+  - Set the **dir** to `/var/redis/6379` (very important step!).
+- Finally, add the new Redis init script to all the default runlevels using the following command:
 
-    ```
-    sudo update-rc.d redis_6379 defaults
-    ```
+  ```
+  sudo update-rc.d redis_6379 defaults
+  ```
 
 You are done! Now you can try running your instance with:
 

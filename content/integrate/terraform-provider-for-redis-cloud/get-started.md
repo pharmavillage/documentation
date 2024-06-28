@@ -3,15 +3,15 @@ LinkTitle: Get started
 Title: Get started with Terraform
 alwaysopen: false
 categories:
-- docs
-- integrate
-- rc
+  - docs
+  - integrate
+  - rc
 description: Shows how to install the Redis Cloud provider and create a subscription.
 group: provisioning
-headerRange: '[1-3]'
+headerRange: "[1-3]"
 summary: The Redis Cloud Terraform provider allows you to provision and manage Redis
   Cloud resources.
-toc: 'true'
+toc: "true"
 type: integration
 weight: $weight
 ---
@@ -28,8 +28,8 @@ Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/
 
 1. Get your Redis Cloud [API keys]({{< relref "/operate/rc/api/get-started/manage-api-keys" >}}). Set them to the following environment variables:
 
-    - Set `REDISCLOUD_ACCESS_KEY` to your API account key.
-    - Set `REDISCLOUD_SECRET_KEY` to your API user key.
+   - Set `PHARMAVILLAGECLOUD_ACCESS_KEY` to your API account key.
+   - Set `PHARMAVILLAGECLOUD_SECRET_KEY` to your API user key.
 
 1. Set a [payment method]({{< relref "/operate/rc/billing-and-payments#add-payment-method" >}}).
 
@@ -50,7 +50,7 @@ Here, you'll learn how to use the [Redis Cloud Terraform Provider]({{< relref "/
       # ...
    }
    ```
-   
+
 1. Run `terraform init`.
 
 ## Create a Redis Cloud subscription with Terraform
@@ -61,14 +61,14 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
 
 1. Use the [`rediscloud_payment_method`](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/data-sources/rediscloud_payment_method) data source to get the payment method ID.
 
-    ```text
-    # Get credit card details
-    data "rediscloud_payment_method" "card" {
-        card_type = "<Card type>"
-        last_four_numbers = "<Last four numbers on the card>"
-    }
-    ```
-   
+   ```text
+   # Get credit card details
+   data "rediscloud_payment_method" "card" {
+       card_type = "<Card type>"
+       last_four_numbers = "<Last four numbers on the card>"
+   }
+   ```
+
    Example:
 
    ```text
@@ -77,35 +77,35 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
       last_four_numbers = "5625"
    }
    ```
-   
+
 1. Define a [`rediscloud_subscription`](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription) resource to create the subscription.
 
-    ```text
-    # Create a subscription
-    resource "rediscloud_subscription" "subscription-resource" {
-            name = "subscription-name"
-            payment_method_id = data.rediscloud_payment_method.card.id
-            memory_storage = "ram"
+   ```text
+   # Create a subscription
+   resource "rediscloud_subscription" "subscription-resource" {
+           name = "subscription-name"
+           payment_method_id = data.rediscloud_payment_method.card.id
+           memory_storage = "ram"
 
-            # Specify the cloud provider information here
-            cloud_provider {
-                    provider = "<Cloud provider>"
-                    region {
-                            region = "<region>"
-                            networking_deployment_cidr = "<CIDR>"
-                    }
-            }
+           # Specify the cloud provider information here
+           cloud_provider {
+                   provider = "<Cloud provider>"
+                   region {
+                           region = "<region>"
+                           networking_deployment_cidr = "<CIDR>"
+                   }
+           }
 
-            #Define the average database specification for databases in the subscription
-            creation_plan {
-                    memory_limit_in_gb = 2
-                    quantity = 1
-                    replication = true
-                    throughput_measurement_by = "operations-per-second"
-                    throughput_measurement_value = 20000
-            }
-    }
-    ```
+           #Define the average database specification for databases in the subscription
+           creation_plan {
+                   memory_limit_in_gb = 2
+                   quantity = 1
+                   replication = true
+                   throughput_measurement_by = "operations-per-second"
+                   throughput_measurement_value = 20000
+           }
+   }
+   ```
 
    Example:
 
@@ -136,26 +136,26 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
 
 1. Define a [`rediscloud_subscription_database`](https://registry.terraform.io/providers/RedisLabs/rediscloud/latest/docs/resources/rediscloud_subscription_database) resource to create a database.
 
-    ```text
-    # Create a Database
-    resource "rediscloud_subscription_database" "database-resource" {
-        subscription_id = rediscloud_subscription.subscription-resource.id
-        name = "database-name"
-        memory_limit_in_gb = 2
-        data_persistence = "aof-every-write"
-        throughput_measurement_by = "operations-per-second"
-        throughput_measurement_value = 20000
-        replication = true
+   ```text
+   # Create a Database
+   resource "rediscloud_subscription_database" "database-resource" {
+       subscription_id = rediscloud_subscription.subscription-resource.id
+       name = "database-name"
+       memory_limit_in_gb = 2
+       data_persistence = "aof-every-write"
+       throughput_measurement_by = "operations-per-second"
+       throughput_measurement_value = 20000
+       replication = true
 
-        alert {
-        name = "dataset-size"
-        value = 40
-        }
-        depends_on = [rediscloud_subscription.subscription-resource]
+       alert {
+       name = "dataset-size"
+       value = 40
+       }
+       depends_on = [rediscloud_subscription.subscription-resource]
 
-    }
-    ```
-   
+   }
+   ```
+
    Example:
 
    ```text
@@ -181,37 +181,37 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
       depends_on = [rediscloud_subscription.subscription-resource]
 
    }
-    ```
+   ```
 
-2. Run `terraform plan` to check for any syntax errors.
+1. Run `terraform plan` to check for any syntax errors.
 
-    ```sh
-    $ terraform plan
-    data.rediscloud_payment_method.card: Reading...
-    data.rediscloud_payment_method.card: Read complete after 1s [id=8859]
+   ```sh
+   $ terraform plan
+   data.rediscloud_payment_method.card: Reading...
+   data.rediscloud_payment_method.card: Read complete after 1s [id=8859]
 
-    Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
-    symbols:
-    + create
+   Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following
+   symbols:
+   + create
 
-    Terraform will perform the following actions:
+   Terraform will perform the following actions:
 
-        # rediscloud_subscription.subscription-resource will be created
-        + resource "rediscloud_subscription" "subscription-resource" {
-            [...]
-        }
+       # rediscloud_subscription.subscription-resource will be created
+       + resource "rediscloud_subscription" "subscription-resource" {
+           [...]
+       }
 
-        # rediscloud_subscription_database.database-resource will be created
-        + resource "rediscloud_subscription_database" "database-resource" {
-            [...]
-        }
-    
-    Plan: 2 to add, 0 to change, 0 to destroy.
-    ```
+       # rediscloud_subscription_database.database-resource will be created
+       + resource "rediscloud_subscription_database" "database-resource" {
+           [...]
+       }
 
-3. Run `terraform apply` to apply the changes and enter `yes` to confirm when prompted.
+   Plan: 2 to add, 0 to change, 0 to destroy.
+   ```
 
-    This will take some time. You will see messages in your terminal while the subscription and database are being created:
+1. Run `terraform apply` to apply the changes and enter `yes` to confirm when prompted.
+
+   This will take some time. You will see messages in your terminal while the subscription and database are being created:
 
    ```text
    rediscloud_subscription.subscription-resource: Creating...
@@ -220,7 +220,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
    rediscloud_subscription.subscription-resource: Still creating... [30s elapsed]
    ```
 
-   When provisioning is complete, you will see a message in your terminal:   
+   When provisioning is complete, you will see a message in your terminal:
 
    ```text
    Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
@@ -228,7 +228,7 @@ The steps in this section show you how to plan and create a Redis Cloud Pro subs
 
    View the [Redis Cloud console](https://app.redislabs.com/) to verify your subscription and database creation.
 
-4. If you want to remove these sample resources, run `terraform destroy`.
+1. If you want to remove these sample resources, run `terraform destroy`.
 
 ## More info
 

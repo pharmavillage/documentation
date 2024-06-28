@@ -10,7 +10,7 @@ aliases:
 
 RDI implements
 [change data capture](https://en.wikipedia.org/wiki/Change_data_capture) (CDC)
-with *pipelines*. (See the
+with _pipelines_. (See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
 for an introduction to pipelines.)
 
@@ -18,7 +18,7 @@ for an introduction to pipelines.)
 
 An RDI pipeline captures change data records from the source database, and transforms them
 into Redis data structures. It writes each of these new structures to a Redis target
-database under its own key. 
+database under its own key.
 
 By default, RDI transforms the source data into
 [hashes]({{< relref "/develop/data-types/hashes" >}}) or
@@ -33,9 +33,9 @@ The data tranformation involves two separate stages. First, the data ingested by
 this JSON data gets passed on to your custom transformation for further processing.
 
 You can provide a job file for each source table you want to transform, but you
-can also add a *default job* for any tables that don't have their own.
+can also add a _default job_ for any tables that don't have their own.
 You must specify the full name of the source table in the job file (or the special
-name "*" in the default job) and you
+name "\*" in the default job) and you
 can also include filtering logic to skip data that matches a particular condition.
 As part of the transformation, you can specify whether you want to store the
 data in Redis as
@@ -78,20 +78,20 @@ sources:
       level: info
     connection:
       type: mysql
-      host: ${RDI_REDIS_HOST}
+      host: ${RDI_PHARMAVILLAGE_HOST}
       port: 13000
       database: redislabscdc
       user: ${SOURCE_DB_USERNAME}
       password: ${SOURCE_DB_PASSWORD}
     tables:
-          emp:
-            snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
-            columns:
-              - empno
-              - fname
-              - lname
-            keys:
-              - empno
+      emp:
+        snapshot_sql: "SELECT * from redislabscdc.emp WHERE empno < 1000"
+        columns:
+          - empno
+          - fname
+          - lname
+        keys:
+          - empno
   # Advanced collector properties (optional):
   # advanced:
   # Sink collector properties - see the full list at https://debezium.io/documentation/reference/stable/operations/debezium-server.html#_redis_stream
@@ -130,8 +130,8 @@ configuration contains the following data:
 
 - `type`: The type of collector to use for the pipeline. Currently, the only type we support is `cdc`.
 - `connection`: The connection details for the source database: hostname, port, schema/ db name, database credentials and
-[TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
-[mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) secrets.
+  [TLS](https://en.wikipedia.org/wiki/Transport_Layer_Security)/
+  [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS) secrets.
 - `tables`: The dataset you want to collect from the source. This subsection
   specifies:
   - `snapshot_sql`: A query that selects the tables to include in the dataset
@@ -203,34 +203,36 @@ output:
 
 The main sections of these files are:
 
-- `source`: This is a mandatory section that specifies the data items that you want to 
+- `source`: This is a mandatory section that specifies the data items that you want to
   use. You can add the following properties here:
+
   - `server_name`: Logical server name (optional). This corresponds to the `debezium.source.topic.prefix`
-  property specified in the Debezium Server's `application.properties` config file.
+    property specified in the Debezium Server's `application.properties` config file.
   - `db`: Database name (optional)
   - `schema`: Database schema (optional)
   - `table`: Database table name. This refers to a table name you supplied in `config.yaml`. The default
-  job doesn't apply to a specific table, so use "*" in place of the table name for this job only.
+    job doesn't apply to a specific table, so use "\*" in place of the table name for this job only.
   - `row_format`: Format of the data to be transformed. This can take the values `data_only` (default) to
-  use only the payload data, or `full` to use the complete change record. See the `transform` section below
-  for details of the extra data you can access when you use the `full` option.
+    use only the payload data, or `full` to use the complete change record. See the `transform` section below
+    for details of the extra data you can access when you use the `full` option.
   - `case_insensitive`: This applies to the `server_name`, `db`, `schema`, and `table` properties
-  and is set to `true` by default. Set it to `false` if you need to use case-sensitive values for these
-  properties.
+    and is set to `true` by default. Set it to `false` if you need to use case-sensitive values for these
+    properties.
 
 - `transform`: This is an optional section describing the transformation that the pipeline
   applies to the data before writing it to the target. The `uses` property specifies a
-  *transformation block* that will use the parameters supplied in the `with` section. See the 
+  _transformation block_ that will use the parameters supplied in the `with` section. See the
   [data transformation reference]({{< relref "/integrate/redis-data-integration/ingest/reference/data-transformation" >}})
   for more details about the supported transformation blocks, and also the
   [JMESPath custom functions]({{< relref "/integrate/redis-data-integration/ingest/reference/jmespath-custom-functions" >}}) reference.
 
   {{< note >}}If you set `row_format` to `full` under the `source` settings, you can access extra data from the
   change record in the transformation:
+
   - Use the expression `key.key` to get the generated Redis key as a string.
-  - Use `before.<FIELD_NAME>` to get the value of a field *before* it was updated in the source database
-    (the field name by itself gives you the value *after* the update).{{< /note >}}
- 
+  - Use `before.<FIELD_NAME>` to get the value of a field _before_ it was updated in the source database
+    (the field name by itself gives you the value _after_ the update).{{< /note >}}
+
 - `output`: This is a mandatory section to specify the data structure(s) that
   RDI will write to
   the target along with the text pattern for the key(s) that will access it.
@@ -239,16 +241,16 @@ The main sections of these files are:
   [Data denormalization]({{< relref "/integrate/redis-data-integration/ingest/data-pipelines/data-denormalization" >}})
   for more information about nesting). You can add the following properties in the `output` section:
   - `uses`: This must have the value `redis.write` to specify writing to a Redis data
-  structure. You can add more than one block of this type in the same job.
+    structure. You can add more than one block of this type in the same job.
   - `with`:
     - `connection`: Connection name as defined in `config.yaml` (by default, the connection named `target` is used).
     - `data_type`: Target data structure when writing data to Redis. The supported types are `hash`, `json`, `set`,
-   `sorted_set`, `stream` and `string`.
+      `sorted_set`, `stream` and `string`.
     - `key`: This lets you override the default key for the data structure with custom logic:
       - `expression`: Expression to generate the key.
       - `language`: Expression language, which must be `jmespath` or `sql`.
     - `expire`: Positive integer value indicating a number of seconds for the key to expire.
-    If you don't specify this property, the key will never expire.
+      If you don't specify this property, the key will never expire.
 
 {{< note >}}You must specify a `transform` section, or a `key` section under `output`, or both.{{< /note >}}
 
@@ -289,7 +291,7 @@ for details of all the available transformation blocks.
 ## Source preparation
 
 Before using the pipeline you must first prepare your source database to use
-the Debezium connector for *change data capture (CDC)*. See the
+the Debezium connector for _change data capture (CDC)_. See the
 [architecture overview]({{< relref "/integrate/redis-data-integration/ingest/architecture#overview" >}})
 for more information about CDC.
 Each database type has a different set of preparation steps. You can
@@ -343,22 +345,22 @@ You have two options to update the ConfigMap:
 Once you have created the configuration for a pipeline, it goes through the
 following phases:
 
-1. *Deploy* - when you deploy the pipeline, RDI first validates it before use.
-Then, the [operator]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
-1. *Snapshot* - The collector starts the pipeline by creating a snapshot of the full
-dataset. This involves reading all the relevant source data, transforming it and then
-writing it into the Redis target. You should expect this phase to take minutes or
-hours to complete if you have a lot of data.
-1. *CDC* - Once the snapshot is complete, the collector starts listening for updates to
-the source data. Whenever a change is committed to the source, the collector captures
-it and adds it to the target through the pipeline. This phase continues indefinitely
-unless you change the pipeline configuration. 
-1. *Update* - If you update the pipeline configuration, the operator starts applying it
-to the processor and the collector. Note that the changes only affect newly-captured
-data unless you reset the pipeline completely. Once RDI has accepted the updates, the
-pipeline returns to the CDC phase with the new configuration.
-1. *Reset* - There are circumstances where you might want to rebuild the dataset
-completely. For example, you might want to apply a new transformation to all the source
-data or refresh the dataset if RDI is disconnected from the
-source for a long time. In situations like these, you can *reset* the pipeline back
-to the snapshot phase. When this is complete, the pipeline continues with CDC as usual. 
+1. _Deploy_ - when you deploy the pipeline, RDI first validates it before use.
+   Then, the [operator]({{< relref "/integrate/redis-data-integration/ingest/architecture#how-rdi-is-deployed">}}) creates and configures the collector and stream processor that will run the pipeline.
+1. _Snapshot_ - The collector starts the pipeline by creating a snapshot of the full
+   dataset. This involves reading all the relevant source data, transforming it and then
+   writing it into the Redis target. You should expect this phase to take minutes or
+   hours to complete if you have a lot of data.
+1. _CDC_ - Once the snapshot is complete, the collector starts listening for updates to
+   the source data. Whenever a change is committed to the source, the collector captures
+   it and adds it to the target through the pipeline. This phase continues indefinitely
+   unless you change the pipeline configuration.
+1. _Update_ - If you update the pipeline configuration, the operator starts applying it
+   to the processor and the collector. Note that the changes only affect newly-captured
+   data unless you reset the pipeline completely. Once RDI has accepted the updates, the
+   pipeline returns to the CDC phase with the new configuration.
+1. _Reset_ - There are circumstances where you might want to rebuild the dataset
+   completely. For example, you might want to apply a new transformation to all the source
+   data or refresh the dataset if RDI is disconnected from the
+   source for a long time. In situations like these, you can _reset_ the pipeline back
+   to the snapshot phase. When this is complete, the pipeline continues with CDC as usual.

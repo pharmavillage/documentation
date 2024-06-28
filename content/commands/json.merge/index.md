@@ -1,21 +1,21 @@
 ---
 arguments:
-- name: key
-  type: key
-- name: path
-  type: string
-- name: value
-  type: string
+  - name: key
+    type: key
+  - name: path
+    type: string
+  - name: value
+    type: string
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 complexity: O(M+N) when path is evaluated to a single value where M is the size of
   the original value (if it exists) and N is the size of the new value, O(M+N) when
   path is evaluated to multiple values where M is the size of the key and N is the
@@ -34,6 +34,7 @@ syntax_fmt: JSON.MERGE key path value
 syntax_str: path value
 title: JSON.MERGE
 ---
+
 Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.
 
 This command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch
@@ -45,6 +46,7 @@ This command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc73
 <details open><summary><code>key</code></summary>
 
 is key to merge into.
+
 </details>
 
 <details open><summary><code>path</code></summary>
@@ -56,17 +58,18 @@ is JSONPath to specify. For non-existing keys the `path` must be `$`. For existi
 <details open><summary><code>value</code></summary>
 
 is JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:
-*   merging an existing object key with a `null` value deletes the key
-*   merging an existing object key with non-null value updates the value
-*   merging a non-existing object key adds the key and value
-*   merging an existing array with any merged value, replaces the entire array with the value
+
+- merging an existing object key with a `null` value deletes the key
+- merging an existing object key with non-null value updates the value
+- merging a non-existing object key adds the key and value
+- merging an existing array with any merged value, replaces the entire array with the value
 </details>
 
 ## Return value
 
 JSET.MERGE returns a simple string reply: `OK` if executed correctly or `error` if fails to set the new values
 
-For more information about replies, see [Redis serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
+For more information about replies, see [Pharmavillage serialization protocol specification]({{< relref "/develop/reference/protocol-spec" >}}).
 
 ## Examples
 
@@ -128,7 +131,6 @@ redis> JSON.GET doc $
 
 </details>
 
-
 <details open>
 <summary><b>Merge changes in multi-paths</b></summary>
 
@@ -151,6 +153,5 @@ redis> JSON.GET doc
 
 ## Related topics
 
-* [RedisJSON]({{< relref "/develop/data-types/json/" >}})
-* [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})
-
+- [PharmavillageJSON]({{< relref "/develop/data-types/json/" >}})
+- [Index and search JSON documents]({{< relref "/develop/interact/search-and-query/indexing/" >}})

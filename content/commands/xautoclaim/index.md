@@ -1,73 +1,73 @@
 ---
 acl_categories:
-- '@write'
-- '@stream'
-- '@fast'
+  - "@write"
+  - "@stream"
+  - "@fast"
 arguments:
-- display_text: key
-  key_spec_index: 0
-  name: key
-  type: key
-- display_text: group
-  name: group
-  type: string
-- display_text: consumer
-  name: consumer
-  type: string
-- display_text: min-idle-time
-  name: min-idle-time
-  type: string
-- display_text: start
-  name: start
-  type: string
-- display_text: count
-  name: count
-  optional: true
-  token: COUNT
-  type: integer
-- display_text: justid
-  name: justid
-  optional: true
-  token: JUSTID
-  type: pure-token
+  - display_text: key
+    key_spec_index: 0
+    name: key
+    type: key
+  - display_text: group
+    name: group
+    type: string
+  - display_text: consumer
+    name: consumer
+    type: string
+  - display_text: min-idle-time
+    name: min-idle-time
+    type: string
+  - display_text: start
+    name: start
+    type: string
+  - display_text: count
+    name: count
+    optional: true
+    token: COUNT
+    type: integer
+  - display_text: justid
+    name: justid
+    optional: true
+    token: JUSTID
+    type: pure-token
 arity: -6
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- write
-- fast
+  - write
+  - fast
 complexity: O(1) if COUNT is small.
 description: Changes, or acquires, ownership of messages in a consumer group, as if
   the messages were delivered to as consumer group member.
 group: stream
 hidden: false
 hints:
-- nondeterministic_output
+  - nondeterministic_output
 history:
-- - 7.0.0
-  - Added an element to the reply array, containing deleted entries the command cleared
-    from the PEL
+  - - 7.0.0
+    - Added an element to the reply array, containing deleted entries the command cleared
+      from the PEL
 key_specs:
-- RW: true
-  begin_search:
-    spec:
-      index: 1
-    type: index
-  delete: true
-  find_keys:
-    spec:
-      keystep: 1
-      lastkey: 0
-      limit: 0
-    type: range
+  - RW: true
+    begin_search:
+      spec:
+        index: 1
+      type: index
+    delete: true
+    find_keys:
+      spec:
+        keystep: 1
+        lastkey: 0
+        limit: 0
+      type: range
 linkTitle: XAUTOCLAIM
 since: 6.2.0
 summary: Changes, or acquires, ownership of messages in a consumer group, as if the
@@ -76,7 +76,8 @@ syntax_fmt: "XAUTOCLAIM key group consumer min-idle-time start [COUNT\_count]\n 
 syntax_str: "group consumer min-idle-time start [COUNT\_count] [JUSTID]"
 title: XAUTOCLAIM
 ---
-This command transfers ownership of pending stream entries that match the specified criteria. Conceptually, `XAUTOCLAIM`  is equivalent to calling [`XPENDING`]({{< relref "/commands/xpending" >}}) and then [`XCLAIM`]({{< relref "/commands/xclaim" >}}),
+
+This command transfers ownership of pending stream entries that match the specified criteria. Conceptually, `XAUTOCLAIM` is equivalent to calling [`XPENDING`]({{< relref "/commands/xpending" >}}) and then [`XCLAIM`]({{< relref "/commands/xclaim" >}}),
 but provides a more straightforward way to deal with message delivery failures via [`SCAN`]({{< relref "/commands/scan" >}})-like semantics.
 
 Like [`XCLAIM`]({{< relref "/commands/xclaim" >}}), the command operates on the stream entries at `<key>` and in the context of the provided `<group>`.
@@ -97,7 +98,7 @@ However, note that you may want to continue calling `XAUTOCLAIM` even after the 
 Note that only messages that are idle longer than `<min-idle-time>` are claimed, and claiming a message resets its idle time.
 This ensures that only a single consumer can successfully claim a given pending message at a specific instant of time and trivially reduces the probability of processing the same message multiple times.
 
-While iterating the PEL, if `XAUTOCLAIM` stumbles upon a message which doesn't exist in the stream anymore (either trimmed or deleted by [`XDEL`]({{< relref "/commands/xdel" >}})) it does not claim it, and deletes it from the PEL in which it was found. This feature was introduced in Redis 7.0.
+While iterating the PEL, if `XAUTOCLAIM` stumbles upon a message which doesn't exist in the stream anymore (either trimmed or deleted by [`XDEL`]({{< relref "/commands/xdel" >}})) it does not claim it, and deletes it from the PEL in which it was found. This feature was introduced in Pharmavillage 7.0.
 These message IDs are returned to the caller as a part of `XAUTOCLAIM`s reply.
 
 Lastly, claiming a message with `XAUTOCLAIM` also increments the attempted deliveries count for that message, unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself).

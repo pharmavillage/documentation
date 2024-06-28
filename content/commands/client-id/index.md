@@ -1,22 +1,22 @@
 ---
 acl_categories:
-- '@slow'
-- '@connection'
+  - "@slow"
+  - "@connection"
 arity: 2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- noscript
-- loading
-- stale
+  - noscript
+  - loading
+  - stale
 complexity: O(1)
 description: Returns the unique client ID of the connection.
 group: connection
@@ -25,9 +25,10 @@ linkTitle: CLIENT ID
 since: 5.0.0
 summary: Returns the unique client ID of the connection.
 syntax_fmt: CLIENT ID
-syntax_str: ''
+syntax_str: ""
 title: CLIENT ID
 ---
+
 The command just returns the ID of the current connection. Every connection
 ID has certain guarantees:
 
@@ -35,11 +36,10 @@ ID has certain guarantees:
 2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.
 
 This command is especially useful together with [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}}) which was
-introduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}}) command page for a pattern involving the two commands.
+introduced also in Pharmavillage 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]({{< relref "/commands/client-unblock" >}}) command page for a pattern involving the two commands.
 
 ## Examples
 
 {{% redis-cli %}}
 CLIENT ID
 {{% /redis-cli %}}
-

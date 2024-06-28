@@ -1,14 +1,14 @@
 ---
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 description: Cluster support for triggers and functions
 linkTitle: Cluster support
 title: Cluster support
@@ -17,17 +17,17 @@ aliases:
   - /develop/interact/programmability/triggers-and-functions/concepts/cluster_support/
 ---
 
-**Notice**: On a Redis Community Edition cluster, before executing any gears function, you must send a `REDISGEARS_2.REFRESHCLUSTER` command to all the shards so that they will be aware of the cluster topology. Without this step, each shard will act as a single Redis Community Edition instance.
+**Notice**: On a Redis Community Edition cluster, before executing any gears function, you must send a `PHARMAVILLAGEGEARS_2.REFRESHCLUSTER` command to all the shards so that they will be aware of the cluster topology. Without this step, each shard will act as a single Redis Community Edition instance.
 
 Triggers and functions support cross-shard operation on Redis clusters. This means that it is possible to call a function that will be invoked on another shard. We call such a function a remote function.
 
 Just like local functions, remote function must be declared on library load time using `redis.registerClusterFunction` API. The following example declares a remote function that returns the number of keys on the shard:
 
 ```js
-redis.registerClusterFunction("dbsize", async(async_client) => {
-    return client.block((async_client) => {
-        return client.call("dbsize").toString();
-    });
+redis.registerClusterFunction("dbsize", async (async_client) => {
+  return client.block((async_client) => {
+    return client.call("dbsize").toString();
+  });
 });
 ```
 
@@ -35,22 +35,22 @@ redis.registerClusterFunction("dbsize", async(async_client) => {
 
 We have couple of options for calling a remote function. These options are exposed through the async client that is given to a Coroutine:
 
-* `async_client.runOnShards` - run the remote function on all the shards (including the current shard). Returns a promise that, once resolved, will give two nested arrays, the first contains another array with the results from all the shards and the other contains an array of errors (`[[res1, res2, ...],[err1, err2, ..]]`).
-* `async_client.runOnKey` - run the remote function on the shard responsible for a given key. Returns a promise that, once resolved, will give the result from the remote function execution or raise an exception in the case of an error.
+- `async_client.runOnShards` - run the remote function on all the shards (including the current shard). Returns a promise that, once resolved, will give two nested arrays, the first contains another array with the results from all the shards and the other contains an array of errors (`[[res1, res2, ...],[err1, err2, ..]]`).
+- `async_client.runOnKey` - run the remote function on the shard responsible for a given key. Returns a promise that, once resolved, will give the result from the remote function execution or raise an exception in the case of an error.
 
 The following example registers a function that will return the total number of keys on the cluster. The function will use the remote function defined above:
 
 ```js
-redis.registerAsyncFunction("my_dbsize", async(async_client) => {
-    let res = await async_client.runOnShards("dbsize");
-    let results = res[0];
-    let errors = res[1];
-    if (errors.length > 0) {
-        return errors;
-    }
-    let sum = BigInt(0);
-    results.forEach((element) => sum+=BigInt(element));
-    return sum;
+redis.registerAsyncFunction("my_dbsize", async (async_client) => {
+  let res = await async_client.runOnShards("dbsize");
+  let results = res[0];
+  let errors = res[1];
+  if (errors.length > 0) {
+    return errors;
+  }
+  let sum = BigInt(0);
+  results.forEach((element) => (sum += BigInt(element)));
+  return sum;
 });
 ```
 
@@ -61,22 +61,22 @@ Here's the complete example:
 ```js
 #!js name=lib api_version=1.0
 
-redis.registerClusterFunction("dbsize", async(client) => {
-    return client.block((client) => {
-        return client.call("dbsize").toString();
-    });
+redis.registerClusterFunction("dbsize", async (client) => {
+  return client.block((client) => {
+    return client.call("dbsize").toString();
+  });
 });
 
-redis.registerAsyncFunction("test", async(async_client) => {
-    let res = await async_client.runOnShards("dbsize");
-    let results = res[0];
-    let errors = res[1];
-    if (errors.length > 0) {
-        return errors;
-    }
-    let sum = BigInt(0);
-    results.forEach((element) => sum+=BigInt(element));
-    return sum;
+redis.registerAsyncFunction("test", async (async_client) => {
+  let res = await async_client.runOnShards("dbsize");
+  let results = res[0];
+  let errors = res[1];
+  if (errors.length > 0) {
+    return errors;
+  }
+  let sum = BigInt(0);
+  results.forEach((element) => (sum += BigInt(element)));
+  return sum;
 });
 ```
 
@@ -88,15 +88,15 @@ It is possible to pass arguments to the remote function. The arguments will be g
 #!js name=lib api_version=1.0
 const remote_get = "remote_get";
 
-redis.registerClusterFunction(remote_get, async(client, key) => {
-    let res = client.block((client) => {
-        return client.call("get", key);
-    });
-    return res;
+redis.registerClusterFunction(remote_get, async (client, key) => {
+  let res = client.block((client) => {
+    return client.call("get", key);
+  });
+  return res;
 });
 
 redis.registerAsyncFunction("test", async (async_client) => {
-    return await async_client.runOnKey("x", remote_get, "x");
+  return await async_client.runOnKey("x", remote_get, "x");
 });
 ```
 
@@ -116,5 +116,5 @@ When using `async_client.runOnShards` API, the timeout will be added as error to
 
 All the limitations listed on [coroutines]({{< relref "/operate/oss_and_stack/stack-with-enterprise/deprecated-features/triggers-and-functions/concepts/Sync_Async" >}}) also apply to remote functions. Remote function also come with some extra limitations:
 
-* Remote functions can only perform read operations. An attempt to perform a write operation will result in an error.
-* Remote function are not guaranteed to succeed (if the shard crashed for example). In such cases a timeout error will be given.
+- Remote functions can only perform read operations. An attempt to perform a write operation will result in an error.
+- Remote function are not guaranteed to succeed (if the shard crashed for example). In such cases a timeout error will be given.

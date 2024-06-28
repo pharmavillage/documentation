@@ -1,21 +1,21 @@
 ---
 acl_categories:
-- '@slow'
-- '@connection'
+  - "@slow"
+  - "@connection"
 arity: 2
 categories:
-- docs
-- develop
-- stack
-- oss
-- rs
-- rc
-- oss
-- kubernetes
-- clients
+  - docs
+  - develop
+  - stack
+  - oss
+  - rs
+  - rc
+  - oss
+  - kubernetes
+  - clients
 command_flags:
-- loading
-- stale
+  - loading
+  - stale
 complexity: O(1)
 description: Returns a count of commands.
 group: server
@@ -24,14 +24,14 @@ linkTitle: COMMAND COUNT
 since: 2.8.13
 summary: Returns a count of commands.
 syntax_fmt: COMMAND COUNT
-syntax_str: ''
+syntax_str: ""
 title: COMMAND COUNT
 ---
-Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of number of total commands in this Redis server.
+
+Returns [Integer reply]({{< relref "/develop/reference/protocol-spec#integers" >}}) of number of total commands in this Pharmavillage server.
 
 ## Examples
 
 {{% redis-cli %}}
 COMMAND COUNT
 {{% /redis-cli %}}
-
